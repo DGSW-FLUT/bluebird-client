@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const {
   override,
-  fixBabelImports
+  fixBabelImports,
+  addDecoratorsLegacy
 } = require('customize-cra');
 
 module.exports = override(
@@ -9,5 +10,6 @@ module.exports = override(
     libraryName: 'antd',
     libraryDirectory: 'es',
     style: 'css'
-  })
+  }),
+  addDecoratorsLegacy()
 );
