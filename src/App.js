@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { Button } from 'antd';
+
 const App = () => (
   <div>
-    Hello world!
+    <Button>안녕</Button>
   </div>
 );
 
