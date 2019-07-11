@@ -25,6 +25,7 @@
     "no-param-reassign": "off",
     "no-console": "off",
     "no-undef": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "max-len": "off"
   }
 }
