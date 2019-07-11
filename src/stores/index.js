@@ -1,5 +1,5 @@
-import TestStore from './Test';
+import LayoutStore from './Layout';
 
 export default {
-  test: new TestStore()
+  layout: new LayoutStore(),
 };

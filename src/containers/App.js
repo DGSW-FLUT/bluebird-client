@@ -1,37 +1,41 @@
 import React from 'react';
 import {
-  Button, Layout, Menu, Icon
+  Layout, Menu, Icon,
 } from 'antd';
 
 import { observer, inject } from 'mobx-react';
 
 import logo from '../logo.svg';
+import Dashboard from '../views/Dashboard';
 
 const {
   Sider, Header, Content
 } = Layout;
 
-@inject('test')
+@inject('layout')
 @observer
 class App extends React.Component {
-  state = {
-    isCollapsed: false
-  }
-
   setCollapsed = (collapsed) => {
-    this.setState({
-      isCollapsed: collapsed
-    });
+    const { layout } = this.props;
+
+    layout.setCollapsed(collapsed);
+  };
+
+  toggleCollapsed = () => {
+    const { layout } = this.props;
+
+    layout.toggleCollapsed();
   };
 
   render() {
-    const { isCollapsed } = this.state;
-    const { test } = this.props;
+    const { layout } = this.props;
+
+    const { isCollapsed } = layout;
     return (
       <Layout>
         <Sider
           breakpoint="lg"
-          collapsedWidth="0"
+          collapsedWidth={80}
           style={{ height: '100vh', position: 'fixed' }}
           onCollapse={(collapsed) => {
             this.setCollapsed(collapsed);
@@ -39,6 +43,7 @@ class App extends React.Component {
         >
           <img src={logo} alt="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            {/* 라우터 메뉴 */}
             <Menu.Item key="1">
               <Icon type="menu" />
               <span>대시보드</span>
@@ -53,7 +58,7 @@ class App extends React.Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout style={{ marginLeft: isCollapsed ? 0 : 200 }}>
+        <Layout style={{ marginLeft: isCollapsed ? 80 : 200 }}>
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content
             style={{
@@ -62,106 +67,8 @@ class App extends React.Component {
               background: '#fff',
             }}
           >
-            <div>
-              {test.value}
-              &nbsp;
-              <Button onClick={() => { test.setValue(test.value + 1); console.log('clicked'); }}>+</Button>
-            </div>
-            ...
-            <br />
-            Really
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            long
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            content
+            {/* 라우터 뷰 */}
+            <Dashboard />
           </Content>
         </Layout>
       </Layout>
