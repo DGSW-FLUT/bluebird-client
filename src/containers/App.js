@@ -8,6 +8,8 @@ import { observer, inject } from 'mobx-react';
 import logo from '../logo.svg';
 import Dashboard from '../views/Dashboard';
 
+import routes from '../routes';
+
 const {
   Sider, Header, Content
 } = Layout;
@@ -31,6 +33,14 @@ class App extends React.Component {
     const { layout } = this.props;
 
     const { isCollapsed } = layout;
+
+    const routesDOM = routes.map(route => (
+      <Menu.Item key={route.key}>
+        <Icon type={route.iconType} />
+        <span>{route.name}</span>
+      </Menu.Item>
+    ));
+
     return (
       <Layout>
         <Sider
@@ -43,19 +53,7 @@ class App extends React.Component {
         >
           <img src={logo} alt="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-            {/* 라우터 메뉴 */}
-            <Menu.Item key="1">
-              <Icon type="menu" />
-              <span>대시보드</span>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="user" />
-              <span>회원 관리</span>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Icon type="save" />
-              <span>백업</span>
-            </Menu.Item>
+            {routesDOM}
           </Menu>
         </Sider>
         <Layout style={{ marginLeft: isCollapsed ? 80 : 200 }}>
