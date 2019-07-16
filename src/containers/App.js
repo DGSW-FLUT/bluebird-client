@@ -3,10 +3,13 @@ import {
   Layout, Menu, Icon,
 } from 'antd';
 
+import { Route, Link, Switch } from 'react-router-dom';
+
 import { observer, inject } from 'mobx-react';
 
 import logo from '../logo.svg';
 import Dashboard from '../views/Dashboard';
+import UserManage from '../views/UserManage';
 
 import routes from '../routes';
 
@@ -36,8 +39,10 @@ class App extends React.Component {
 
     const routesDOM = routes.map(route => (
       <Menu.Item key={route.key}>
-        <Icon type={route.iconType} />
-        <span>{route.name}</span>
+        <Link to={route.url}>
+          <Icon type={route.iconType} />
+          <span>{route.name}</span>
+        </Link>
       </Menu.Item>
     ));
 
@@ -45,7 +50,8 @@ class App extends React.Component {
       <Layout>
         <Sider
           breakpoint="lg"
-          collapsedWidth={80}
+          trigger={null}
+          collapsedWidth={0}
           style={{ height: '100vh', position: 'fixed' }}
           onCollapse={(collapsed) => {
             this.setCollapsed(collapsed);
@@ -56,17 +62,29 @@ class App extends React.Component {
             {routesDOM}
           </Menu>
         </Sider>
-        <Layout style={{ marginLeft: isCollapsed ? 80 : 200 }}>
-          <Header style={{ background: '#fff', padding: 0 }} />
+        <Layout style={{ marginLeft: isCollapsed ? 0 : 200 }}>
+          {isCollapsed === true && (
+            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']} style={{ lineHeight: '64px' }}>
+                {routesDOM}
+              </Menu>
+            </Header>
+          )}
           <Content
             style={{
-              margin: '32px 24px',
+              marginTop: isCollapsed ? 88 : 32,
+              marginLeft: 32,
+              marginRight: 32,
+              marginBottom: 32,
               padding: 24,
               background: '#fff',
             }}
           >
-            {/* 라우터 뷰 */}
-            <Dashboard />
+            <Switch>
+              <Route path="/" exact component={Dashboard} />
+              <Route path="/user" component={UserManage} />
+              <Route path="/backup" component={() => <div>Backup</div>} />
+            </Switch>
           </Content>
         </Layout>
       </Layout>

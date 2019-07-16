@@ -13,11 +13,22 @@ class Dashboard extends React.Component {
 
     return (
       <Row type="flex">
-        <Col xs={{ span: isCollapsed ? 24 : 12 }}>
-          <Statistic title="총 회원" value={32} prefix={<Icon type="user" />} style={{ marginBottom: isCollapsed ? 24 : 0 }} />
+        <Col span={isCollapsed ? 24 : 12} style={{ marginBottom: isCollapsed ? 32 : 0 }}>
+          <Statistic title="총 회원" value={32} prefix={<Icon type="user" />} />
+          <Row type="flex" style={{ marginTop: 12 }}>
+            <Col span={isCollapsed ? 24 : 8}>
+              <Statistic title="올해 회원 증감" value={32} />
+            </Col>
+            <Col span={isCollapsed ? 24 : 8}>
+              <Statistic title="정회원" value={32} />
+            </Col>
+            <Col span={isCollapsed ? 24 : 8}>
+              <Statistic title="일반회원" value={32} />
+            </Col>
+          </Row>
         </Col>
-        <Col xs={{ span: isCollapsed ? 24 : 12 }}>
-          <Statistic title="총 회원" value={32} />
+        <Col span={isCollapsed ? 24 : 12}>
+          <Statistic title="미납 회비" value="33,000 원" prefix={<Icon type="dollar" />} />
         </Col>
       </Row>
     );
