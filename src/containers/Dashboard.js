@@ -4,20 +4,20 @@ import {
 } from 'antd';
 import { inject, observer } from 'mobx-react';
 
-@inject('layout')
+@inject('layout', 'member')
 @observer
 class Dashboard extends React.Component {
   render() {
-    const { layout } = this.props;
+    const { layout, member } = this.props;
     const { isCollapsed } = layout;
 
     return (
       <Row type="flex">
         <Col span={isCollapsed ? 24 : 12} style={{ marginBottom: isCollapsed ? 32 : 0 }}>
-          <Statistic title="총 회원" value={32} prefix={<Icon type="user" />} />
+          <Statistic title="총 회원" value={member.memberCount} prefix={<Icon type="user" />} />
           <Row type="flex" style={{ marginTop: isCollapsed ? 0 : 12 }}>
             <Col span={isCollapsed ? 24 : 12}>
-              <Statistic title="정회원" value={22} suffix={`/ ${32}`} />
+              <Statistic title="정회원 / 부회원" value={member.regularMemberCount} suffix={`/ ${member.memberCount - member.regularMemberCount}`} />
             </Col>
             <Col span={isCollapsed ? 24 : 12}>
               <Statistic

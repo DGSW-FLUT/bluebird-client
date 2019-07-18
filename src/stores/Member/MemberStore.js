@@ -33,6 +33,11 @@ class MemberStore {
   get memberCount() {
     return this.memberList.length;
   }
+
+  @computed
+  get regularMemberCount() {
+    return this.memberList.filter(m => m.level === '정회원').length;
+  }
 }
 
 export default MemberStore;
