@@ -58,7 +58,7 @@ class App extends React.Component {
           }}
         >
           <img src={logo} alt="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
             {routesDOM}
           </Menu>
         </Sider>
