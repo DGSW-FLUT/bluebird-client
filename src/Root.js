@@ -5,7 +5,7 @@ import { Provider } from 'mobx-react';
 
 import stores from './stores';
 
-import App from './containers/App';
+import App from './layouts/App';
 
 const Root = () => (
   <Provider {...stores}>
