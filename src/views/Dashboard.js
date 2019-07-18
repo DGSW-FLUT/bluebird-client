@@ -15,15 +15,21 @@ class Dashboard extends React.Component {
       <Row type="flex">
         <Col span={isCollapsed ? 24 : 12} style={{ marginBottom: isCollapsed ? 32 : 0 }}>
           <Statistic title="총 회원" value={32} prefix={<Icon type="user" />} />
-          <Row type="flex" style={{ marginTop: 12 }}>
-            <Col span={isCollapsed ? 24 : 8}>
-              <Statistic title="올해 회원 증감" value={32} />
+          <Row type="flex" style={{ marginTop: isCollapsed ? 0 : 12 }}>
+            <Col span={isCollapsed ? 24 : 12}>
+              <Statistic title="정회원" value={22} suffix={`/ ${32}`} />
             </Col>
-            <Col span={isCollapsed ? 24 : 8}>
-              <Statistic title="정회원" value={32} />
-            </Col>
-            <Col span={isCollapsed ? 24 : 8}>
-              <Statistic title="일반회원" value={32} />
+            <Col span={isCollapsed ? 24 : 12}>
+              <Statistic
+                title="올해 회원 증가"
+                valueRender={() => (
+                  <>
+                    <span style={{ color: '#3f8600' }}>+5</span>
+                    {' '}
+                    <span style={{ color: '#cf1322' }}>-1</span>
+                  </>
+                )}
+              />
             </Col>
           </Row>
         </Col>

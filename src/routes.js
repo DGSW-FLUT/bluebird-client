@@ -13,6 +13,12 @@ export default [
   },
   {
     key: 2,
+    name: '문자',
+    iconType: 'mail',
+    url: '/message'
+  },
+  {
+    key: 3,
     name: '백업',
     iconType: 'save',
     url: '/backup'

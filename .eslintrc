@@ -26,6 +26,7 @@
     "no-console": "off",
     "no-undef": "off",
     "react/prop-types": "off",
-    "max-len": "off"
+    "max-len": "off",
+    "jsx-a11y/anchor-is-valid": "off"
   }
 }

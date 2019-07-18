@@ -40,7 +40,7 @@ class App extends React.Component {
     const routesDOM = routes.map(route => (
       <Menu.Item key={route.key}>
         <Link to={route.url}>
-          <Icon type={route.iconType} />
+          {isCollapsed === false && <Icon type={route.iconType} />}
           <span>{route.name}</span>
         </Link>
       </Menu.Item>
@@ -58,14 +58,14 @@ class App extends React.Component {
           }}
         >
           <img src={logo} alt="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu theme="dark" mode="inline">
             {routesDOM}
           </Menu>
         </Sider>
         <Layout style={{ marginLeft: isCollapsed ? 0 : 200 }}>
           {isCollapsed === true && (
             <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']} style={{ lineHeight: '64px' }}>
+              <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }}>
                 {routesDOM}
               </Menu>
             </Header>
