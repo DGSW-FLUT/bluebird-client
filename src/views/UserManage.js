@@ -3,9 +3,11 @@ import {
   Col, Row, Table, Button, Divider
 } from 'antd';
 
+import { inject, observer } from 'mobx-react';
+
 const { Column } = Table;
 
-const UserManage = () => {
+const UserManage = inject('layout')(observer((props) => {
   const [data, setData] = useState([
     {
       id: 1,
@@ -68,6 +70,6 @@ const UserManage = () => {
       </Col>
     </Row>
   );
-};
+}));
 
 export default UserManage;
