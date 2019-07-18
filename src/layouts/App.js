@@ -7,8 +7,8 @@ import { Route, Link, Switch } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
 import logo from '../logo.svg';
-import Dashboard from '../views/Dashboard';
-import UserManage from '../views/UserManage';
+import Dashboard from '../containers/Dashboard';
+import UserManage from '../containers/UserManage';
 import routes from '../routes';
 
 const {

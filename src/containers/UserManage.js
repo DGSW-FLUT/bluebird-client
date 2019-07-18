@@ -4,22 +4,25 @@ import {
 } from 'antd';
 
 import { inject, observer } from 'mobx-react';
+import axios from '../axios';
 
 const { Column } = Table;
 
-@inject('member')
+@inject('member', 'admin')
 @observer
 class UserManage extends React.Component {
   addMember = () => {
-    const { member } = this.props;
-    member.memberList.push({
-      id: id + 1,
+    const { member, admin } = this.props;
+    member.addMember({
+      id: member.memberList[member.memberList.length - 1].id + 1,
       name: 'Hello',
-      birth: '2001년 03월 22일',
+      birth: '2000년 03월 22일',
       addr: '서울특별시 강남구 역삼동',
       level: '정회원',
       phoneNumber: '010-9173-7607'
     });
+    admin.jwt += '1';
+    console.log(axios.defaults.headers);
   }
 
   render() {
@@ -42,9 +45,9 @@ class UserManage extends React.Component {
               key="action"
               render={(rawData, { id }) => (
                 <span>
-                  <a href="#">수정</a>
+                  <a>수정</a>
                   <Divider type="vertical" />
-                  <a href="#">삭제</a>
+                  <a>삭제</a>
                 </span>
               )}
             />

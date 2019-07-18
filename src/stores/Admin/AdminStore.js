@@ -7,15 +7,15 @@ class AdminStore {
   static instance = null;
 
   constructor() {
-    if (this.instance) return this.instance;
-    this.instance = this;
+    if (AdminStore.instance) return AdminStore.instance;
+    AdminStore.instance = this;
   }
 
   @observable
   jwt = ''
 
   @computed
-  isAuthed() {
+  get isAuthed() {
     return this.jwt.length > 0;
   }
 }

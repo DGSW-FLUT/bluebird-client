@@ -25,12 +25,12 @@ class MemberStore {
   ];
 
   @action.bound
-  setMemberList(memberList) {
-    this.memberList = memberList;
+  addMember(member) {
+    this.memberList = this.memberList.concat(member);
   }
 
   @computed
-  memberCount() {
+  get memberCount() {
     return this.memberList.length;
   }
 }

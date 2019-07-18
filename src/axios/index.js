@@ -15,8 +15,8 @@ const axios = Axios.create({
   }
 });
 
-observe(adminStore.jwt, (change) => {
-  console.log('change');
+observe(adminStore, (change) => {
+  console.log('change', change);
   axios.defaults.headers.Authorization = `Bearer ${change.newValue}`;
 });
 
