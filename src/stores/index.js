@@ -1,6 +1,6 @@
 import LayoutStore from './Layout';
-import MemberStore from './Member/MemberStore';
-import AdminStore from './Admin/AdminStore';
+import MemberStore from './Member';
+import AdminStore from './Admin';
 
 export default {
   layout: new LayoutStore(),
