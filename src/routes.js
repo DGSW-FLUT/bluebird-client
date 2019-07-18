@@ -7,7 +7,7 @@ export default [
   },
   {
     key: 1,
-    name: '회원 관리',
+    name: '회원',
     iconType: 'user',
     url: '/user'
   },
@@ -22,5 +22,11 @@ export default [
     name: '백업',
     iconType: 'save',
     url: '/backup'
-  }
+  },
+  {
+    key: 4,
+    name: '관리자',
+    iconType: 'security-scan',
+    url: '/admin'
+  },
 ];
