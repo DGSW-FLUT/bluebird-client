@@ -25,6 +25,7 @@ class UserManage extends React.Component {
     console.log(axios.defaults.headers);
   }
 
+
   render() {
     const { member } = this.props;
     return (
@@ -43,7 +44,7 @@ class UserManage extends React.Component {
             <Column
               title="액션"
               key="action"
-              render={(rawData, { id }) => (
+              render={() => (
                 <span>
                   <a>수정</a>
                   <Divider type="vertical" />
