@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import {
-  Row, Col, Table, Button, Upload, Icon
+  Row, Col, Table, Button, Upload
 } from 'antd';
 import Column from 'antd/lib/table/Column';
 
@@ -40,9 +40,11 @@ class BackupList extends React.Component {
             </Button>
           </Col>
           <Col>
-            <Button type="danger">
-              파일 복원하기
-            </Button>
+            <Upload>
+              <Button type="danger" icon="upload">
+                파일 복원하기
+              </Button>
+            </Upload>
           </Col>
         </Row>
       </div>
