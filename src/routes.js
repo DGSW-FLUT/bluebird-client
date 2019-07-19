@@ -19,7 +19,7 @@ export default [
   },
   {
     key: 3,
-    name: '백업',
+    name: '내보내기/불러오기',
     iconType: 'save',
     url: '/backup'
   },

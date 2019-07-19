@@ -10,6 +10,7 @@ import logo from '../logo.svg';
 import Dashboard from '../containers/Dashboard';
 import UserManage from '../containers/UserManage';
 import routes from '../routes';
+import BackupList from '../containers/BackupList';
 
 const {
   Sider, Header, Content
@@ -72,7 +73,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/" exact component={Dashboard} />
               <Route path="/user" component={UserManage} />
-              <Route path="/backup" component={() => <div>Backup</div>} />
+              <Route path="/backup" component={BackupList} />
             </Switch>
           </Content>
         </Layout>
