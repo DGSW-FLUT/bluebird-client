@@ -3,7 +3,7 @@ import { observe } from 'mobx';
 import AdminStore from '../stores/Admin/AdminStore';
 import config from '../config';
 // get Instance
-const adminStore = new AdminStore();
+const adminStore = AdminStore.getInstance();
 
 /**
  * Axios 요청 기본 정보

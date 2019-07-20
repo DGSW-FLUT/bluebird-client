@@ -6,9 +6,12 @@ import { observable, computed, action } from 'mobx';
 class AdminStore {
   static instance = null;
 
+  static getInstance() {
+    if (AdminStore.instance === null) AdminStore.instance = new AdminStore();
+    return AdminStore.instance;
+  }
+
   constructor() {
-    if (AdminStore.instance) return AdminStore.instance;
-    AdminStore.instance = this;
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       this.jwt = jwt;
