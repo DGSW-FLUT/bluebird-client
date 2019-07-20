@@ -8,7 +8,11 @@ const { Content } = Layout;
 const FullpageLayout = (props) => {
   const { children } = props;
   return (
-    <Layout>
+    <Layout
+      style={{
+        minHeight: '100vh'
+      }}
+    >
       <Content
         style={{
           margin: 32,
