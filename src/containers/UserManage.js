@@ -53,35 +53,35 @@ class UserManage extends React.Component {
         setSelectedKeys, selectedKeys, confirm, clearFilters
       }) => (
         <div style={{ padding: 8 }}>
-          <Input
-            ref={(node) => {
+            <Input
+              ref={(node) => {
                 this.searchInput = node;
               }}
-            placeholder={`${title} 검색`}
-            value={selectedKeys[0]}
-            onChange={e =>
+              placeholder={`${title} 검색`}
+              value={selectedKeys[0]}
+              onChange={e =>
                 setSelectedKeys(e.target.value ? [e.target.value] : [])
               }
-            onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-            style={{ width: 188, marginBottom: 8, display: 'block' }}
-          />
-          <Button
-            type="primary"
-            onClick={() => this.handleSearch(selectedKeys, confirm)}
-            icon="search"
-            size="small"
-            style={{ width: 90, marginRight: 8 }}
-          >
+              onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+              style={{ width: 188, marginBottom: 8, display: 'block' }}
+            />
+            <Button
+              type="primary"
+              onClick={() => this.handleSearch(selectedKeys, confirm)}
+              icon="search"
+              size="small"
+              style={{ width: 90, marginRight: 8 }}
+            >
               검색
-          </Button>
-          <Button
-            onClick={() => this.handleReset(clearFilters)}
-            size="small"
-            style={{ width: 90 }}
-          >
+            </Button>
+            <Button
+              onClick={() => this.handleReset(clearFilters)}
+              size="small"
+              style={{ width: 90 }}
+            >
               초기화
-          </Button>
-        </div>
+            </Button>
+          </div>
         ),
       filterIcon: filtered => (
         <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
@@ -159,7 +159,7 @@ class UserManage extends React.Component {
               key="action"
               render={user => (
                 <span>
-                  <a href="#">수정</a>
+                  <Button type="link">수정</Button>
                   <Divider type="vertical" />
                   <Popconfirm
                     title="정말 삭제하시겠습니까?"
@@ -167,7 +167,7 @@ class UserManage extends React.Component {
                     okText="삭제"
                     cancelText="취소"
                   >
-                    <a href="#">삭제</a>
+                    <Button type="link">삭제</Button>
                   </Popconfirm>
                 </span>
               )}

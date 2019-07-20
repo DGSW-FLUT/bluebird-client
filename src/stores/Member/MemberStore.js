@@ -1,4 +1,6 @@
-import { observable, action, computed } from 'mobx';
+import {
+  observable, action, computed, flow
+} from 'mobx';
 import axios from '../../axios';
 
 /**
@@ -16,26 +18,24 @@ class MemberStore {
     this.memberList = this.memberList.concat(member);
   }
 
-  @action.bound
-  async fetchMemberList() {
-    const response = await axios.get('/users');
+  fetchMemberList = flow(function* () {
+    const response = yield axios.get('/users');
     if (response.status === 200) {
       const { data } = response;
       this.memberList = data;
       this.isFetched = true;
     }
-  }
+  })
 
-  @action.bound
-  async removeMember(id) {
-    const response = await axios.delete(`/users/${id}`);
+  removeMember = flow(function* (id) {
+    const response = yield axios.delete(`/users/${id}`);
     if (response.status === 204) {
       const find = this.memberList.findIndex(v => v.idx === id);
       this.memberList = this.memberList.splice(find, 1);
       return true;
     }
     return false;
-  }
+  })
 
   @computed
   get memberCount() {
