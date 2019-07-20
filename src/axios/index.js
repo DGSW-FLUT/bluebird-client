@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { observe } from 'mobx';
-import AdminStore from '../stores/Admin/AdminStore';
+import AdminStore from '../stores/Admin';
 import config from '../config';
 // get Instance
 const adminStore = new AdminStore();

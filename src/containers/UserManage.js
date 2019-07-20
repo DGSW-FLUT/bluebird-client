@@ -71,9 +71,9 @@ class UserManage extends React.Component {
               key="action"
               render={() => (
                 <span>
-                  <a>수정</a>
+                  <Button type="link">수정</Button>
                   <Divider type="vertical" />
-                  <a>삭제</a>
+                  <Button type="link">삭제</Button>
                 </span>
               )}
             />
