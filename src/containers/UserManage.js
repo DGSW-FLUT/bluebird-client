@@ -1,27 +1,17 @@
 import React from 'react';
 import {
-  Col, Row, Table, Button, Divider
+  Col, Row, Table, Button, Divider, message, Popconfirm
 } from 'antd';
 
 import { inject, observer } from 'mobx-react';
-import axios from '../axios';
 
 const { Column } = Table;
 
-@inject('member', 'admin', 'layout')
+@inject('member', 'layout')
 @observer
 class UserManage extends React.Component {
-  async componentDidMount() {
-    const { member } = this.props;
-    const response = await axios.get('/users');
-    if (response.status === 200) {
-      const { data } = response;
-      member.setMemberList(data);
-    }
-  }
-
   addMember = () => {
-    const { member, admin } = this.props;
+    const { member } = this.props;
     member.addMember({
       id: member.memberList[member.memberList.length - 1].id + 1,
       name: 'Hello',
@@ -30,10 +20,17 @@ class UserManage extends React.Component {
       level: '정회원',
       phoneNumber: '010-9173-7607'
     });
-    admin.jwt += '1';
-    console.log(axios.defaults.headers);
   }
 
+  removeMember = async (user) => {
+    const { member } = this.props;
+    const isSuccess = await member.removeMember(user.id);
+    if (isSuccess) {
+      message.success(`${user.name}님을 삭제했습니다.`);
+    } else {
+      message.error('삭제 실패');
+    }
+  }
 
   render() {
     const { member, layout } = this.props;
@@ -53,7 +50,7 @@ class UserManage extends React.Component {
             }
             {
               !isCollapsed && (
-                <Column title="주소" dataIndex="addr" key="addr" />
+                <Column title="주소" dataIndex="address" key="address" />
               )
             }
             {
@@ -63,17 +60,19 @@ class UserManage extends React.Component {
             }
             {
               !isCollapsed && (
-                <Column title="전화번호" dataIndex="phoneNumber" key="phoneNumber" />
+                <Column title="전화번호" dataIndex="phone_number" key="phone_number" />
               )
             }
             <Column
               title="액션"
               key="action"
-              render={() => (
+              render={user => (
                 <span>
                   <Button type="link">수정</Button>
                   <Divider type="vertical" />
-                  <Button type="link">삭제</Button>
+                  <Popconfirm title="정말 삭제하시겠습니까?" onConfirm={() => this.removeMember(user)}>
+                    <Button type="link">삭제</Button>
+                  </Popconfirm>
                 </span>
               )}
             />
