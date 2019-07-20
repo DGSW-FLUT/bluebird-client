@@ -8,7 +8,7 @@ import axios from '../axios';
 
 const { Column } = Table;
 
-@inject('member', 'admin')
+@inject('member', 'admin', 'layout')
 @observer
 class UserManage extends React.Component {
   async componentDidMount() {
@@ -36,20 +36,36 @@ class UserManage extends React.Component {
 
 
   render() {
-    const { member } = this.props;
+    const { member, layout } = this.props;
+    const { isCollapsed } = layout;
     return (
       <Row type="flex">
         <Col span={24}>
-          {/*
-          LayoutStore Inject 후 모바일 뷰 시 이름 / 수정|삭제 만 나오도록 하기
-          모바일/일반 상관없이 row를 누르면 상세 보기
-          */}
           <Table dataSource={member.memberList} rowKey={user => user.id}>
             <Column title="이름" dataIndex="name" key="name" />
-            <Column title="생년월일" dataIndex="birth" key="birth" />
-            <Column title="주소" dataIndex="addr" key="addr" />
-            <Column title="등급" dataIndex="level" key="level" />
-            <Column title="전화번호" dataIndex="phoneNumber" key="phoneNumber" />
+            {
+              // TODO: Fragment 미동작. 더 좋은 방법을 제시해주세요 ㅠㅠ
+            }
+            {
+              !isCollapsed && (
+                <Column title="생년월일" dataIndex="birth" key="birth" />
+              )
+            }
+            {
+              !isCollapsed && (
+                <Column title="주소" dataIndex="addr" key="addr" />
+              )
+            }
+            {
+              !isCollapsed && (
+                <Column title="등급" dataIndex="level" key="level" />
+              )
+            }
+            {
+              !isCollapsed && (
+                <Column title="전화번호" dataIndex="phoneNumber" key="phoneNumber" />
+              )
+            }
             <Column
               title="액션"
               key="action"
