@@ -1,85 +1,28 @@
 import React from 'react';
-import {
-  Layout, Menu, Icon,
-} from 'antd';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
-import { inject, observer } from 'mobx-react';
+import RouteWithLayout from './RouteWithLayout';
+import DefaultLayout from './DefaultLayout';
+import FullpageLayout from './FullPageLayout';
 
-import logo from '../logo.svg';
 import Dashboard from '../containers/Dashboard';
 import UserManage from '../containers/UserManage';
-import routes from '../routes';
 import BackupList from '../containers/BackupList';
 
-const {
-  Sider, Header, Content
-} = Layout;
-@inject('layout')
-@observer
-class App extends React.Component {
-  setCollapsed = (collapsed) => {
-    const { layout } = this.props;
-    layout.setCollapsed(collapsed);
-  };
+// TODO: routes.js 파일에서 유동적으로 불러오게 전환하고 싶어요
 
-  render() {
-    const { layout } = this.props;
-    const { isCollapsed } = layout;
-
-    const routesDOM = routes.map(route => (
-      <Menu.Item key={route.key}>
-        <Link to={route.url}>
-          {isCollapsed === false && <Icon type={route.iconType} />}
-          <span>{route.name}</span>
-        </Link>
-      </Menu.Item>
-    ));
-
-    return (
-      <Layout>
-        <Sider
-          breakpoint="lg"
-          trigger={null}
-          collapsedWidth={0}
-          style={{ height: '100vh', position: 'fixed' }}
-          onCollapse={(collapsed) => {
-            this.setCollapsed(collapsed);
-          }}
-        >
-          <img src={logo} alt="logo" />
-          <Menu theme="dark" mode="inline">
-            {routesDOM}
-          </Menu>
-        </Sider>
-        <Layout style={{ marginLeft: isCollapsed ? 0 : 200 }}>
-          {isCollapsed === true && (
-            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-              <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }}>
-                {routesDOM}
-              </Menu>
-            </Header>
-          )}
-          <Content
-            style={{
-              marginTop: isCollapsed ? 88 : 32,
-              marginLeft: 32,
-              marginRight: 32,
-              marginBottom: 32,
-              padding: 24,
-              background: '#fff',
-            }}
-          >
-            <Switch>
-              <Route path="/" exact component={Dashboard} />
-              <Route path="/user" component={UserManage} />
-              <Route path="/backup" component={BackupList} />
-            </Switch>
-          </Content>
-        </Layout>
-      </Layout>
-    );
-  }
-}
+const App = () => (
+  <Switch>
+    {/* DefaultLayout */}
+    <RouteWithLayout path="/" exact layout={DefaultLayout} component={Dashboard} />
+    <RouteWithLayout path="/user" layout={DefaultLayout} component={UserManage} />
+    <RouteWithLayout path="/message" layout={DefaultLayout} component={() => <div>Making</div>} />
+    <RouteWithLayout path="/backup" layout={DefaultLayout} component={BackupList} />
+    <RouteWithLayout path="/admin" layout={DefaultLayout} component={() => <div>Making</div>} />
+    {/* FullpageLayout */}
+    <RouteWithLayout path="/login" layout={FullpageLayout} component={() => <div>Making</div>} />
+    <RouteWithLayout path="*" layout={FullpageLayout} component={() => <div>404</div>} />
+  </Switch>
+);
 
 export default App;
