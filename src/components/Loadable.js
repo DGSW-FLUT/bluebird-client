@@ -19,7 +19,7 @@ import { Icon, Spin } from 'antd';
 const Spinner = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 /**
- * Make a loadable component with Ant Design Spinner.
+ * Make loadable for child component with Ant Design Spinner.
  */
 const Loadable = forwardRef((props, ref) => {
   const [_isPending, _setPending] = useState(false);
