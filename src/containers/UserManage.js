@@ -11,6 +11,15 @@ const { Column } = Table;
 @inject('member', 'admin', 'layout')
 @observer
 class UserManage extends React.Component {
+  async componentDidMount() {
+    const { member } = this.props;
+    const response = await axios.get('/users');
+    if (response.status === 200) {
+      const { data } = response;
+      member.setMemberList(data);
+    }
+  }
+
   addMember = () => {
     const { member, admin } = this.props;
     member.addMember({
