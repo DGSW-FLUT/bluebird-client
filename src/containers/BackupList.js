@@ -3,7 +3,8 @@ import { observer, inject } from 'mobx-react';
 import {
   Row, Col, Table, Button, Upload
 } from 'antd';
-import Column from 'antd/lib/table/Column';
+
+const { Column } = Table;
 
 @inject('backup')
 @observer
