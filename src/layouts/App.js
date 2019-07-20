@@ -10,6 +10,8 @@ import UserManage from '../containers/UserManage';
 import BackupList from '../containers/BackupList';
 import Login from '../containers/Login';
 
+import Message from '../components/Message';
+
 // TODO: routes.js 파일에서 유동적으로 불러오게 전환하고 싶어요
 
 const App = () => (
@@ -18,7 +20,7 @@ const App = () => (
     <RouteWithLayout path="/" exact layout={DefaultLayout} component={Dashboard} />
     <RouteWithLayout path="/user" exact layout={DefaultLayout} component={UserManage} />
     <RouteWithLayout path="/user/*" layout={DefaultLayout} component={() => <div>Making</div>} />
-    <RouteWithLayout path="/message" layout={DefaultLayout} component={() => <div>Making</div>} />
+    <RouteWithLayout path="/message" layout={DefaultLayout} component={() => <Message />} />
     <RouteWithLayout path="/backup" layout={DefaultLayout} component={BackupList} />
     <RouteWithLayout path="/admin" layout={DefaultLayout} component={() => <div>Making</div>} />
     {/* FullpageLayout */}
