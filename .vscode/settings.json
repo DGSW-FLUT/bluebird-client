@@ -1,19 +1,4 @@
 {
   "eslint.packageManager": "yarn",
-  "eslint.autoFixOnSave": true,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact"
-  ],
-  "eslint.options": {
-    "experimentalDecorators": true
-  },
-  "editor.tabSize": 2,
-  "editor.formatOnSave": true,
-  "[javascript]": {
-    "editor.formatOnSave": true
-  },
-  "[javascriptreact]": {
-    "editor.formatOnSave": true
-  }
+  "eslint.autoFixOnSave": true
 }
