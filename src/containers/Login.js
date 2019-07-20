@@ -4,12 +4,31 @@ import {
 } from 'antd';
 
 import { inject } from 'mobx-react';
+import axios from '../axios';
+import Loadable from '../components/Loadable';
 
 @inject('admin')
 class Login extends React.Component {
   state = {
     account: '',
     password: ''
+  }
+
+  loadable = React.createRef();
+
+  componentDidMount() {
+    document.addEventListener('keypress', this.handleEnter, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keypress', this.handleEnter, false);
+  }
+
+  handleEnter = (event) => {
+    if (event.key !== 'Enter') {
+      return;
+    }
+    this.login();
   }
 
   setAccount = (event) => {
@@ -28,14 +47,27 @@ class Login extends React.Component {
     }));
   }
 
-  login = (event) => {
-    // TODO: Implement Login Logic
+  login = async () => {
+    this.loadable.current.setPending(true);
+
+    const { account, password } = this.state;
+    try {
+      const { data } = await axios.post('/auth/login', {
+        account,
+        password
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.loadable.current.setPending(false);
+    }
   }
 
   render() {
     return (
-      <>
-        {'관리자 아이디로 로그인할 수 있습니다.'}
+      <Loadable ref={this.loadable}>
+        <p>관리자 아이디로 로그인할 수 있습니다.</p>
         <Form layout="inline">
           <Form.Item>
             <Input
@@ -52,12 +84,13 @@ class Login extends React.Component {
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary">
+            <Button type="primary" onClick={() => this.login()}>
               로그인
             </Button>
           </Form.Item>
         </Form>
-      </>
+      </Loadable>
+      // </Spin>
     );
   }
 }

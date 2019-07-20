@@ -13,9 +13,14 @@ const {
   Sider, Header, Content
 } = Layout;
 
-@inject('layout')
+@inject('layout', 'member')
 @observer
 class DefaultLayout extends React.Component {
+  componentWillMount() {
+    const { member } = this.props;
+    member.fetchMemberList();
+  }
+
   setCollapsed = (collapsed) => {
     const { layout } = this.props;
     layout.setCollapsed(collapsed);

@@ -6,6 +6,7 @@ import BackupStore from './Backup';
 export default {
   layout: new LayoutStore(),
   member: new MemberStore(),
-  admin: new AdminStore(),
+  // AdminStore is SingleTon
+  admin: AdminStore.getInstance(),
   backup: new BackupStore()
 };
