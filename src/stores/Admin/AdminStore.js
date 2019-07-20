@@ -17,9 +17,6 @@ class AdminStore {
     }
   }
 
-  /**
-   * test jwt 토큰 값 (나중에 무조건 지울 것!)
-   */
   @observable
   jwt = null;
 
