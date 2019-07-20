@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-const RouteLayout = ({ layout: Layout, component: Component, ...rest }) => (
+const RouteWithLayout = ({ layout: Layout, component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
@@ -14,4 +14,4 @@ const RouteLayout = ({ layout: Layout, component: Component, ...rest }) => (
   />
 );
 
-export default RouteLayout;
+export default RouteWithLayout;
