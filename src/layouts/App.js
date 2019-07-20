@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom';
 
 import RouteWithLayout from './RouteWithLayout';
 import DefaultLayout from './DefaultLayout';
-import FullpageLayout from './FullPageLayout';
+import FullpageLayout from './FullpageLayout';
 
 import Dashboard from '../containers/Dashboard';
 import UserManage from '../containers/UserManage';
