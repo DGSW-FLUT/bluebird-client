@@ -1,18 +1,20 @@
 import React from 'react';
 import {
-  Form, Input, Icon, Button, Spin
+  Form, Input, Icon, Button
 } from 'antd';
 
 import { inject } from 'mobx-react';
 import axios from '../axios';
+import Loadable from '../components/Loadable';
 
 @inject('admin')
 class Login extends React.Component {
   state = {
     account: '',
-    password: '',
-    pending: false
+    password: ''
   }
+
+  loadable = React.createRef();
 
   componentDidMount() {
     document.addEventListener('keypress', this.handleEnter, false);
@@ -46,10 +48,7 @@ class Login extends React.Component {
   }
 
   login = async () => {
-    this.setState(prevState => ({
-      ...prevState,
-      pending: true
-    }));
+    this.loadable.current.setPending(true);
 
     const { account, password } = this.state;
     try {
@@ -61,18 +60,14 @@ class Login extends React.Component {
     } catch (error) {
       console.log(error);
     } finally {
-      this.setState(prevState => ({
-        ...prevState,
-        pending: false
-      }));
+      this.loadable.current.setPending(false);
     }
   }
 
   render() {
-    const { pending } = this.state;
     return (
-      <Spin spinning={pending} indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />}>
-        {'관리자 아이디로 로그인할 수 있습니다.'}
+      <Loadable ref={this.loadable}>
+        <p>관리자 아이디로 로그인할 수 있습니다.</p>
         <Form layout="inline">
           <Form.Item>
             <Input
@@ -94,7 +89,8 @@ class Login extends React.Component {
             </Button>
           </Form.Item>
         </Form>
-      </Spin>
+      </Loadable>
+      // </Spin>
     );
   }
 }

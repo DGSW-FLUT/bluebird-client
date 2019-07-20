@@ -1,10 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import { Icon, Spin } from 'antd';
 
-// DO NOT USE CUZ IT'S MAKING!
-// DO NOT USE CUZ IT'S MAKING!
-// DO NOT USE CUZ IT'S MAKING!
-
 // 사용법
 //
 // FunctionComponent
@@ -22,7 +18,7 @@ import { Icon, Spin } from 'antd';
 
 const Spinner = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
-const Loadable = forwardRef(({ component: Component, ...rest }, ref) => {
+const Loadable = forwardRef((props, ref) => {
   const [_isPending, _setPending] = useState(false);
 
   useImperativeHandle(ref, () => ({
@@ -35,7 +31,7 @@ const Loadable = forwardRef(({ component: Component, ...rest }, ref) => {
   }));
 
   return (
-    <Spin indicator={Spinner} spinning={_isPending} {...rest} render={props => <Component {...props} />} />
+    <Spin indicator={Spinner} spinning={_isPending} {...props} />
   );
 });
 
