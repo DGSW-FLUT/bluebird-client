@@ -15,7 +15,7 @@ class AdminStore {
    * test jwt 토큰 값 (나중에 무조건 지울 것!)
    */
   @observable
-  jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOjIsImlhdCI6MTU2MzYwNTk5NywiZXhwIjoxNTYzNjA5NTk3fQ.1We3ZtaYmg3vOS7bBbN7FhjOdFloxVpVmrk2ee9fuCY'
+  jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOjIsImlhdCI6MTU2MzYwODMxOSwiZXhwIjoxNTYzNjExOTE5fQ.gl1990DxieYRZ9cGpyrFODRsdHPG6vaSaWwIp4jlUq0'
 
   @computed
   get isAuthed() {
