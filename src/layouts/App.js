@@ -10,7 +10,7 @@ import UserManage from '../containers/UserManage';
 import BackupList from '../containers/BackupList';
 import Login from '../containers/Login';
 
-import Message from '../components/Message';
+import Message from '../containers/Message';
 
 // TODO: routes.js 파일에서 유동적으로 불러오게 전환하고 싶어요
 

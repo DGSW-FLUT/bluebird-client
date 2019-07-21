@@ -1,5 +1,5 @@
 import {
-  observable, action, computed, flow
+ observable, action, computed, flow 
 } from 'mobx';
 import axios from '../../axios';
 
@@ -25,7 +25,7 @@ class MemberStore {
       this.memberList = data;
       this.isFetched = true;
     }
-  })
+  });
 
   removeMember = flow(function* (id) {
     const response = yield axios.delete(`/users/${id}`);
@@ -35,7 +35,7 @@ class MemberStore {
       return true;
     }
     return false;
-  })
+  });
 
   @computed
   get memberCount() {

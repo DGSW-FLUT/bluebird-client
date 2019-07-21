@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Layout, Menu, Icon,
-} from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { inject, observer } from 'mobx-react';
@@ -9,9 +7,7 @@ import { inject, observer } from 'mobx-react';
 import logo from '../logo.svg';
 import routes from '../routes';
 
-const {
-  Sider, Header, Content
-} = Layout;
+const { Sider, Header, Content } = Layout;
 
 @inject('layout', 'member')
 @observer
@@ -70,7 +66,7 @@ class DefaultLayout extends React.Component {
               marginRight: 32,
               marginBottom: 32,
               padding: 24,
-              background: '#fff',
+              background: '#fff'
             }}
           >
             {children}
