@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import {
  Layout, Card, Row, Col, Steps, Button, message 
 } from 'antd';
+import { inject, observer } from 'mobx-react';
 
 const { Content } = Layout;
 
 const { Step } = Steps;
 
+@inject('layout')
+@observer
 class Message extends Component {
   state = {
     msg: '',
@@ -40,21 +43,24 @@ class Message extends Component {
   render() {
     const { msg, current } = this.state;
 
+    const { layout } = this.props;
+    const { isCollapsed } = layout;
+
     const steps = [
       {
-        title: '메세지를 선택해주세요!'
+        title: '메세지 입력'
       },
       {
-        title: '보낼 사람을 선택해주세요!'
+        title: '수신인 선택'
       },
       {
-        title: '완료!'
+        title: '완료'
       }
     ];
 
     return (
       <Content>
-        <Steps current={current}>
+        <Steps current={current} size={isCollapsed ? 'small' : ''}>
           {steps.map(item => (
             <Step key={item.title} title={item.title} />
           ))}
