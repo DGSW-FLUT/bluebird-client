@@ -11,6 +11,8 @@ const UserList = (props) => {
   } = props;
   let searchInput = null;
   const [searchText, setSearchText] = useState('');
+  const [sortedInfo, setSortedInfo] = useState({});
+
   const handleSearch = (selectedKeys, confirm) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -76,9 +78,12 @@ const UserList = (props) => {
     )
   });
 
+  const handleFilterChange = (pagenation, filters, sorter) => {
+    setSortedInfo(sorter);
+  };
 
   return (
-    <Table dataSource={memberList} rowKey={user => user.id}>
+    <Table dataSource={memberList} rowKey={user => user.id} onChange={handleFilterChange}>
       {
         beforeColumns
       }
@@ -92,7 +97,13 @@ const UserList = (props) => {
         // TODO: Fragment 미동작. 더 좋은 방법을 제시해주세요 ㅠㅠ
       }
       {!isCollapsed && (
-        <Column title="생년월일" dataIndex="birth" key="birth" />
+        <Column
+          title="생년월일"
+          dataIndex="birth"
+          key="birth"
+          sorter={(a, b) => a.birth - b.birth}
+          sortOrder={sortedInfo.columnKey === 'birth' && sortedInfo.order}
+        />
       )}
       {!isCollapsed && (
         <Column
