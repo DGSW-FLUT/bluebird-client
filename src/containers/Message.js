@@ -11,7 +11,7 @@ const { Content } = Layout;
 const { Column } = Table;
 const { Step } = Steps;
 
-@inject('layout', 'member')
+@inject('layout', 'member', 'message')
 @observer
 class Message extends Component {
   state = {
@@ -41,14 +41,25 @@ class Message extends Component {
   };
 
   showMessage = () => {
-    message.success('Complete!');
+    const { message } = this.props;
+    const { msg, member } = this.state;
+    const result = message.sendMessage({
+      message: msg,
+      recipients: member
+    });
+
+    if (result) {
+      message.success('Complete!');
+    } else {
+      message.error('error!');
+    }
   };
 
   handleSelect = (user, e) => {
     const { member } = this.state;
     if (e.target.checked) {
       this.setState({
-        member: [user, ...member]
+        member: [user.phone_number, ...member]
       });
     } else {
       const array = [...member];
@@ -136,7 +147,7 @@ class Message extends Component {
             </Button>
           )}
           {current === steps.length - 1 && (
-            <Button type="primary" onClick={() => this.showMessage()}>
+            <Button type="primary" onClick={() => this.sendMessage()}>
               Done
             </Button>
           )}
