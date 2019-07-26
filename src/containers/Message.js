@@ -1,19 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
- Layout, Card, Row, Col, Steps, Button, message 
+ Layout, Card, Row, Col, Steps, Button, message, Checkbox, Table 
 } from 'antd';
 import { inject, observer } from 'mobx-react';
 
+import UserList from '../components/UserList';
+
 const { Content } = Layout;
 
+const { Column } = Table;
 const { Step } = Steps;
 
-@inject('layout')
+@inject('layout', 'member')
 @observer
 class Message extends Component {
   state = {
     msg: '',
-    current: 0
+    current: 0,
+    member: []
   };
 
   handleMessage = (e) => {
@@ -40,10 +44,26 @@ class Message extends Component {
     message.success('Complete!');
   };
 
+  handleSelect = (user, e) => {
+    const { member } = this.state;
+    if (e.target.checked) {
+      this.setState({
+        member: [user, ...member]
+      });
+    } else {
+      const array = [...member];
+      const idx = member.indexOf(user.phone_number);
+      array.splice(idx, 1);
+      this.setState({
+        member: array
+      });
+    }
+  };
+
   render() {
     const { msg, current } = this.state;
 
-    const { layout } = this.props;
+    const { layout, member } = this.props;
     const { isCollapsed } = layout;
 
     const steps = [
@@ -65,19 +85,49 @@ class Message extends Component {
             <Step key={item.title} title={item.title} />
           ))}
         </Steps>
-        <p style={{ marginTop: '12px' }}>{msg}</p>
-        <Row>
-          <Col span={8}>
-            <Card onClick={this.handleMessage}>[2.28 알림] 가입을 환영합니다!</Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8}>
-            <Card onClick={this.handleMessage}>
-              [2.28 알림] 회비가 미납되었으니 빠른 납부 부탁드립니다.
-            </Card>
-          </Col>
-        </Row>
+        {(() => {
+          switch (current) {
+            case 0:
+              return (
+                <Fragment>
+                  <p style={{ marginTop: '12px' }}>{msg}</p>
+                  <Row>
+                    <Col span={8}>
+                      <Card onClick={this.handleMessage}>[2.28 알림] 가입을 환영합니다!</Card>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={8}>
+                      <Card onClick={this.handleMessage}>
+                        [2.28 알림] 회비가 미납되었으니 빠른 납부 부탁드립니다.
+                      </Card>
+                    </Col>
+                  </Row>
+                </Fragment>
+              );
+
+            case 1:
+              return (
+                <UserList
+                  memberList={member.memberList}
+                  isCollapsed={isCollapsed}
+                  afterColumns={(
+<Column
+                      key="action"
+                      render={user => (
+                        <React.Fragment>
+                          <Checkbox onChange={e => this.handleSelect(user, e)} />
+                        </React.Fragment>
+                      )}
+                    />
+)}
+                />
+              );
+
+            default:
+              break;
+          }
+        })()}
 
         <Content style={{ marginTop: '8px' }}>
           {current < steps.length - 1 && (
