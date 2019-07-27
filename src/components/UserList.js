@@ -116,14 +116,12 @@ const UserList = (props) => {
       {!isCollapsed && (
         <Column title="등급" dataIndex="level" key="level" />
       )}
-      {!isCollapsed && (
-        <Column
-          title="전화번호"
-          dataIndex="phone_number"
-          key="phone_number"
-          {...getColumnSearchProps('전화번호', 'phone_number')}
-        />
-      )}
+      <Column
+        title="전화번호"
+        dataIndex="phone_number"
+        key="phone_number"
+        {...getColumnSearchProps('전화번호', 'phone_number')}
+      />
 
       {
         afterColumns
