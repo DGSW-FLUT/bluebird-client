@@ -6,18 +6,20 @@ import { inject, observer } from 'mobx-react';
 
 import UserList from '../components/UserList';
 
+import axios from '../axios';
+
 const { Content } = Layout;
 
 const { Column } = Table;
 const { Step } = Steps;
 
-@inject('layout', 'member', 'message')
+@inject('layout', 'member')
 @observer
 class Message extends Component {
   state = {
     msg: '',
     current: 0,
-    member: []
+    recipients: []
   };
 
   handleMessage = (e) => {
@@ -40,39 +42,40 @@ class Message extends Component {
     });
   };
 
-  showMessage = () => {
-    const { message } = this.props;
-    const { msg, member } = this.state;
-    const result = message.sendMessage({
-      message: msg,
-      recipients: member
-    });
+  sendMessage = () => {
+    const { msg, recipients } = this.state;
 
-    if (result) {
-      message.success('Complete!');
-    } else {
-      message.error('error!');
+    const data = {
+      message: msg,
+      recipients: Array.from(recipients, el => el.phone_number)
+    };
+    try {
+      axios.post('/messages/send', data).then((res) => {
+        if (res.status === 200) message.success(res.data.message);
+      });
+    } catch (err) {
+      message.error('SMS SEND FAIL');
     }
   };
 
   handleSelect = (user, e) => {
-    const { member } = this.state;
+    const { recipients } = this.state;
     if (e.target.checked) {
       this.setState({
-        member: [user.phone_number, ...member]
+        recipients: [user, ...recipients]
       });
     } else {
-      const array = [...member];
-      const idx = member.indexOf(user.phone_number);
+      const array = [...recipients];
+      const idx = recipients.indexOf(user);
       array.splice(idx, 1);
       this.setState({
-        member: array
+        recipients: array
       });
     }
   };
 
   render() {
-    const { msg, current } = this.state;
+    const { msg, current, recipients } = this.state;
 
     const { layout, member } = this.props;
     const { isCollapsed } = layout;
@@ -126,13 +129,21 @@ class Message extends Component {
 <Column
                       key="action"
                       render={user => (
-                        <React.Fragment>
+                        <Fragment>
                           <Checkbox onChange={e => this.handleSelect(user, e)} />
-                        </React.Fragment>
+                        </Fragment>
                       )}
                     />
 )}
                 />
+              );
+
+            case 2:
+              return (
+                <Fragment>
+                  <p>{`보낼 메세지: ${msg}`}</p>
+                  <UserList memberList={recipients} />
+                </Fragment>
               );
 
             default:
