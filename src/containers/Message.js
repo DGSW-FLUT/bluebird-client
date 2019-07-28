@@ -29,7 +29,16 @@ class Message extends Component {
   };
 
   next = () => {
-    const { current } = this.state;
+    const { current, msg, recipients } = this.state;
+    if (current === 0 && !msg) {
+      message.error('메세지를 선택해주세요.');
+      return;
+    }
+    if (current === 1 && !recipients.length) {
+      message.error('보낼 사람을 최소 1명 선택해주세요.');
+      return;
+    }
+
     this.setState({
       current: current + 1
     });
@@ -40,9 +49,11 @@ class Message extends Component {
     this.setState({
       current: current - 1
     });
+
+    if (current === 2) this.setState({ recipients: [] });
   };
 
-  sendMessage = () => {
+  sendMessage = async () => {
     const { msg, recipients } = this.state;
 
     const data = {
@@ -50,7 +61,7 @@ class Message extends Component {
       recipients: Array.from(recipients, el => el.phone_number)
     };
     try {
-      axios.post('/messages/send', data).then((res) => {
+      await axios.post('/messages/send', data).then((res) => {
         if (res.status === 200) message.success(res.data.message);
       });
     } catch (err) {
