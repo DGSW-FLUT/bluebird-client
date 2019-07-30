@@ -23,10 +23,10 @@ class BackupStore {
   @computed
   get backups() {
     return this.backupList.map((b) => {
-      const dumpData = JSON.parse(b.dump_data);
+      const dumpData = JSON.parse(b.dump_data).filter(d => d.deleted_at === null);
       return {
         ...b,
-        dump_data: dumpData.filter(d => d.deleted_at === null),
+        dump_data: dumpData,
         userCount: dumpData.length
       };
     });

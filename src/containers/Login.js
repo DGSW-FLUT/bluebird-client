@@ -1,6 +1,6 @@
 import React from 'react';
 import {
- Form, Input, Icon, Button 
+  Form, Input, Icon, Button, message
 } from 'antd';
 
 import { withRouter } from 'react-router-dom';
@@ -63,8 +63,11 @@ class Login extends React.Component {
       await admin.setJwtToken(data.token);
       history.push('/');
     } catch (error) {
+      message.warning('아이디 혹은 비밀번호가 틀렸습니다.');
       console.log(error);
+      this.loadable.current.setPending(false);
     }
+
     // finally {
     //   console.log(this.loadable.current);
     //   this.loadable.current.setPending(false);

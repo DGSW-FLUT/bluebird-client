@@ -12,7 +12,17 @@ const axios = Axios.create({
   baseURL: config.apiURL,
   headers: {
     Authorization: `Bearer ${adminStore.jwt}`
+  },
+});
+// Add a response interceptor
+axios.interceptors.response.use(response => response, (error) => {
+  if (error.response.status === 401) {
+    adminStore.setJwtToken('');
+    localStorage.clear();
+    // eslint-disable-next-line no-restricted-globals
+    location.href = '/login';
   }
+  return Promise.reject(error);
 });
 
 observe(adminStore, (change) => {
