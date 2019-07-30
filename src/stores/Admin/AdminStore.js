@@ -21,7 +21,7 @@ class AdminStore {
   }
 
   @observable
-  jwt = null;
+  jwt = '';
 
   @computed
   get isAuthed() {
