@@ -1,18 +1,20 @@
 import React from 'react';
 import {
-  Form, Input, Icon, Button
+ Form, Input, Icon, Button 
 } from 'antd';
 
+import { withRouter } from 'react-router-dom';
 import { inject } from 'mobx-react';
 import axios from '../axios';
 import Loadable from '../components/Loadable';
 
 @inject('admin')
+@withRouter
 class Login extends React.Component {
   state = {
     account: '',
     password: ''
-  }
+  };
 
   loadable = React.createRef();
 
@@ -29,7 +31,7 @@ class Login extends React.Component {
       return;
     }
     this.login();
-  }
+  };
 
   setAccount = (event) => {
     event.persist();
@@ -37,7 +39,7 @@ class Login extends React.Component {
       ...prevState,
       account: event.target.value
     }));
-  }
+  };
 
   setPassword = (event) => {
     event.persist();
@@ -45,24 +47,28 @@ class Login extends React.Component {
       ...prevState,
       password: event.target.value
     }));
-  }
+  };
 
   login = async () => {
     this.loadable.current.setPending(true);
 
     const { account, password } = this.state;
+    const { admin, history } = this.props;
+
     try {
       const { data } = await axios.post('/auth/login', {
         account,
         password
       });
-      console.log(data);
+      await admin.setJwtToken(data.token);
+      history.push('/');
     } catch (error) {
       console.log(error);
     } finally {
+      console.log(this.loadable);
       this.loadable.current.setPending(false);
     }
-  }
+  };
 
   render() {
     return (
