@@ -70,14 +70,16 @@ function MemberDetailModals(props) {
       footer={
         !isChange
           ? [
-            <Popconfirm
-              title="정말로 삭제하시겠습니까?"
-              onConfirm={() => onDelete(member)}
-              okText="삭제"
-              cancelText="취소"
-            >
-              <Button key="delete" type="danger">삭제</Button>
-            </Popconfirm>,
+            changeable && (
+              <Popconfirm
+                title="정말로 삭제하시겠습니까?"
+                onConfirm={() => onDelete(member)}
+                okText="삭제"
+                cancelText="취소"
+              >
+                <Button key="delete" type="danger">삭제</Button>
+              </Popconfirm>
+            ),
             changeable && <Button key="change" type="primary" onClick={() => setIsChange(true)}>수정</Button>,
             <Button key="back" onClick={handleCancel} type="primary">확인</Button>
           ] : [
@@ -156,7 +158,7 @@ function MemberDetailModals(props) {
                 {member.name}
               </Descriptions.Item>
               <Descriptions.Item label="생일">
-                {member.birth}
+                {moment(member.birth, 'YYYY-MM-DD').format('YYYY년 MM월 DD일')}
               </Descriptions.Item>
               <Descriptions.Item label="주소" span={3}>
                 {member.address}

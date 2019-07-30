@@ -149,6 +149,7 @@ const UserList = (props) => {
           dataIndex="phone_number"
           key="phone_number"
           {...getColumnSearchProps('전화번호', 'phone_number')}
+          render={text => (<a onClick={e => e.stopPropagation()} href={`callto:${text}`}>{text}</a>)}
         />
 
         {
