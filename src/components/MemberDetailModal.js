@@ -5,9 +5,9 @@ import {
 import moment from 'moment';
 import 'moment/locale/ko';
 import AddressPicker from './AddressPicker';
+import config from '../config';
 
-const levelType = ['부회원', '정회원'];
-
+const { levelType } = config;
 function MemberDetailModals(props) {
   const {
     form, visible, member, handleCancel, onSubmit, changeable, onDelete
@@ -75,6 +75,7 @@ function MemberDetailModals(props) {
       visible={visible}
       title={`${member.name}님 ${isChange ? '수정' : '상세 보기'}`}
       onCancel={onCancel}
+      maskClosable={false}
       footer={
         !isChange
           ? [
@@ -110,6 +111,7 @@ function MemberDetailModals(props) {
                     <DatePicker
                       style={{ width: '100%' }}
                       placeholder="생년월일을 입력해 주세요"
+                      showToday={false}
                     />
                   )
                 }

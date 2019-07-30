@@ -1,5 +1,5 @@
 import {
-  observable, action, computed, flow
+  observable, computed, flow
 } from 'mobx';
 import axios from '../../axios';
 
@@ -13,10 +13,14 @@ class MemberStore {
   @observable
   isFetched = false;
 
-  @action.bound
-  addMember(member) {
-    this.memberList = this.memberList.concat(member);
-  }
+  addMember = flow(function* (member) {
+    const response = yield axios.post('/users', member);
+    if (response.status === 201) {
+      this.memberList = this.memberList.concat(response.data);
+      return true;
+    }
+    return false;
+  });
 
   fetchMemberList = flow(function* () {
     const response = yield axios.get('/users');

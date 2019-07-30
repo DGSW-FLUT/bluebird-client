@@ -6,21 +6,24 @@ import {
   message,
 } from 'antd';
 import { inject, observer } from 'mobx-react';
+import { observable } from 'mobx';
 import UserList from '../components/UserList';
+import MemberAddModal from '../components/MemberAddModal';
 
 @inject('member', 'layout')
 @observer
 class UserManage extends React.Component {
-  addMember = () => {
+  @observable showModal = false;
+
+  addMember = async (user) => {
     const { member } = this.props;
-    member.addMember({
-      id: member.memberList[member.memberList.length - 1].id + 1,
-      name: 'Hello',
-      birth: '2000년 03월 22일',
-      addr: '서울특별시 강남구 역삼동',
-      level: '정회원',
-      phoneNumber: '010-9173-7607'
-    });
+    const isSuccess = await member.addMember(user);
+    if (isSuccess) {
+      message.success('회원 추가 성공');
+      return true;
+    }
+    message.error('회원 추가 실패');
+    return false;
   };
 
 
@@ -60,8 +63,13 @@ class UserManage extends React.Component {
           />
         </Col>
         <Col span={24}>
-          <Button onClick={this.addMember}>추가</Button>
+          <Button type="primary" onClick={() => { this.showModal = true; }}>추가</Button>
         </Col>
+        <MemberAddModal
+          visible={this.showModal}
+          handleCancel={() => { this.showModal = false; }}
+          onAdd={this.addMember}
+        />
       </Row>
     );
   }
