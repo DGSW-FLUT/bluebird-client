@@ -17,8 +17,6 @@ class AdminStore {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       this.jwt = jwt;
-    } else { // Debug Only
-      this.setJwtToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOjIsImlhdCI6MTU2MzYxMTgyMSwiZXhwIjoxNTY4Nzk1ODIxfQ.YswkBeWysD74s5DPbft9XvdSqmzmF2mopoL4UdLtL10');
     }
   }
 
