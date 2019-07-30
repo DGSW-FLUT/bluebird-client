@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
- Layout, Card, Row, Col, Steps, Button, message, Checkbox, Table 
+  Layout, Card, Row, Col, Steps, Button, message, Checkbox, Table
 } from 'antd';
 import { inject, observer } from 'mobx-react';
 
@@ -137,15 +137,15 @@ class Message extends Component {
                   memberList={member.memberList}
                   isCollapsed={isCollapsed}
                   afterColumns={(
-<Column
+                    <Column
                       key="action"
                       render={user => (
                         <Fragment>
-                          <Checkbox onChange={e => this.handleSelect(user, e)} />
+                          <Checkbox onChange={e => this.handleSelect(user, e)} onClick={e => e.stopPropagation()} />
                         </Fragment>
                       )}
                     />
-)}
+                  )}
                 />
               );
 
