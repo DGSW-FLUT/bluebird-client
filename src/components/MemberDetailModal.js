@@ -174,19 +174,19 @@ function MemberDetailModals(props) {
               <Descriptions.Item label="주소" span={3}>
                 {member.address}
               </Descriptions.Item>
-              <Descriptions.Item label="직업" span={1.5}>
+              <Descriptions.Item label="직업">
                 {member.job}
               </Descriptions.Item>
-              <Descriptions.Item label="등급" span={1.5}>
-                {member.level}
-              </Descriptions.Item>
-              <Descriptions.Item label="핸드폰 번호" span={3}>
+              <Descriptions.Item label="핸드폰 번호" span={2}>
                 <a href={`callto:${member.phone_number}`}>{member.phone_number}</a>
               </Descriptions.Item>
-              <Descriptions.Item label="추가 날짜" span={3}>
+              <Descriptions.Item label="등급">
+                {member.level}
+              </Descriptions.Item>
+              <Descriptions.Item label="추가 날짜">
                 {member.created_at}
               </Descriptions.Item>
-              <Descriptions.Item label="수정 날짜" span={3}>
+              <Descriptions.Item label="수정 날짜">
                 {member.created_at}
               </Descriptions.Item>
             </Descriptions>
