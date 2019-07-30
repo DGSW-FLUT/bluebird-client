@@ -20,7 +20,7 @@ const App = () => (
     <RouteWithLayout path="/" exact layout={DefaultLayout} component={Dashboard} />
     <RouteWithLayout path="/user" exact layout={DefaultLayout} component={UserManage} />
     <RouteWithLayout path="/user/*" layout={DefaultLayout} component={() => <div>Making</div>} />
-    <RouteWithLayout path="/message" layout={DefaultLayout} component={() => <Message />} />
+    <RouteWithLayout path="/message" layout={DefaultLayout} component={Message} />
     <RouteWithLayout path="/backup" layout={DefaultLayout} component={BackupList} />
     <RouteWithLayout path="/admin" layout={DefaultLayout} component={() => <div>Making</div>} />
     {/* FullpageLayout */}
