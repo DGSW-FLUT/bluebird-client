@@ -160,7 +160,7 @@ const UserList = (props) => {
         visible={isEnableModal}
         member={currentMember}
         handleCancel={() => setIsEnableModal(false)}
-        onChange={onChange}
+        onSubmit={onChange}
         onDelete={onDelete}
         changeable={changeable}
       />
