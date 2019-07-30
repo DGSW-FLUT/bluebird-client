@@ -64,10 +64,11 @@ class Login extends React.Component {
       history.push('/');
     } catch (error) {
       console.log(error);
-    } finally {
-      console.log(this.loadable);
-      this.loadable.current.setPending(false);
     }
+    // finally {
+    //   console.log(this.loadable.current);
+    //   this.loadable.current.setPending(false);
+    // }
   };
 
   render() {
