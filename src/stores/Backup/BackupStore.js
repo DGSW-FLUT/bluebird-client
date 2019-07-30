@@ -1,4 +1,6 @@
-import { observable, flow } from 'mobx';
+import {
+  observable, flow, action, computed
+} from 'mobx';
 import axios from '../../axios';
 
 class BackupStore {
@@ -14,12 +16,31 @@ class BackupStore {
   fetchBackupList = flow(function* () {
     const response = yield axios.get('/backup');
     if (response.status === 200) {
-      this.backupList = response.data.map((b) => {
-        b.dump_data = JSON.parse(b.dump_data);
-        b.userCount = b.dump_data.length;
-        return b;
-      });
+      this.backupList = response.data;
     }
+  })
+
+  @computed
+  get backups() {
+    return this.backupList.map((b) => {
+      const dumpData = JSON.parse(b.dump_data);
+      return {
+        ...b,
+        dump_data: dumpData,
+        userCount: dumpData.length
+      };
+    });
+  }
+
+  @action
+  addBackup = flow(function* () {
+    const response = yield axios.get('/backup/save');
+    if (response.status === 200) {
+      const result = response.data;
+      this.backupList = this.backupList.concat(result);
+      return true;
+    }
+    return false;
   })
 }
 

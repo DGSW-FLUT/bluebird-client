@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import {
-  Row, Col, Table, Button, Upload, Modal
+  Row, Col, Table, Button, Upload, Modal, message
 } from 'antd';
 import Loadable from '../components/Loadable';
 import UserList from '../components/UserList';
@@ -39,6 +39,16 @@ class BackupList extends React.Component {
     });
   }
 
+  addBackup = async () => {
+    const { backup } = this.props;
+    const result = await backup.addBackup();
+    if (result) {
+      message.success('백업 성공');
+    } else {
+      message.error('백업 실패.');
+    }
+  }
+
   render() {
     const { modalVisible, currentBackup } = this.state;
     const { backup, layout } = this.props;
@@ -49,8 +59,8 @@ class BackupList extends React.Component {
             백업 기록
           </h2>
           <Col span={24}>
-            <Table dataSource={backup.backupList} rowKey={item => item.idx}>
-              <Column title="번호" dataIndex="id" key="id" />
+            <Table dataSource={backup.backups} rowKey={item => item.id}>
+              <Column title="백업 번호" dataIndex="id" key="id" />
               <Column title="회원 수" dataIndex="userCount" key="userCount" />
               <Column title="백업 날짜" dataIndex="created_at" key="created_at" />
               <Column
@@ -67,16 +77,9 @@ class BackupList extends React.Component {
         </Row>
         <Row type="flex" gutter={16}>
           <Col>
-            <Button type="primary">
+            <Button type="primary" onClick={this.addBackup}>
               파일 백업하기
             </Button>
-          </Col>
-          <Col>
-            <Upload>
-              <Button type="danger" icon="upload">
-                파일 복원하기
-              </Button>
-            </Upload>
           </Col>
         </Row>
         <Modal
@@ -85,7 +88,7 @@ class BackupList extends React.Component {
           onCancel={this.hideModal}
           width={layout.isCollapsed ? 520 : 800}
         >
-          <UserList isCollapsed={layout.isCollapsed} memberList={currentBackup.dump_data} />
+          <UserList pageSize={5} isCollapsed={layout.isCollapsed} memberList={currentBackup.dump_data} />
         </Modal>
       </Loadable>
 

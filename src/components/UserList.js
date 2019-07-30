@@ -7,7 +7,7 @@ import Column from 'antd/lib/table/Column';
 
 const UserList = (props) => {
   const {
-    isCollapsed, memberList, afterColumns, beforeColumns
+    isCollapsed, memberList, afterColumns, beforeColumns, pageSize
   } = props;
   let searchInput = null;
   const [searchText, setSearchText] = useState('');
@@ -83,7 +83,14 @@ const UserList = (props) => {
   };
 
   return (
-    <Table dataSource={memberList} rowKey={user => user.id} onChange={handleFilterChange}>
+    <Table
+      dataSource={memberList}
+      rowKey={user => user.id}
+      onChange={handleFilterChange}
+      pagination={{
+        pageSize: pageSize || 10
+      }}
+    >
       {
         beforeColumns
       }
@@ -96,26 +103,32 @@ const UserList = (props) => {
       {
         // TODO: Fragment 미동작. 더 좋은 방법을 제시해주세요 ㅠㅠ
       }
-      {!isCollapsed && (
-        <Column
-          title="생년월일"
-          dataIndex="birth"
-          key="birth"
-          sorter={(a, b) => a.birth - b.birth}
-          sortOrder={sortedInfo.columnKey === 'birth' && sortedInfo.order}
-        />
-      )}
-      {!isCollapsed && (
-        <Column
-          title="주소"
-          dataIndex="address"
-          key="address"
-          {...getColumnSearchProps('주소', 'address')}
-        />
-      )}
-      {!isCollapsed && (
-        <Column title="등급" dataIndex="level" key="level" />
-      )}
+      {
+        !isCollapsed && (
+          <Column
+            title="생년월일"
+            dataIndex="birth"
+            key="birth"
+            sorter={(a, b) => a.birth - b.birth}
+            sortOrder={sortedInfo.columnKey === 'birth' && sortedInfo.order}
+          />
+        )
+      }
+      {
+        !isCollapsed && (
+          <Column
+            title="주소"
+            dataIndex="address"
+            key="address"
+            {...getColumnSearchProps('주소', 'address')}
+          />
+        )
+      }
+      {
+        !isCollapsed && (
+          <Column title="등급" dataIndex="level" key="level" />
+        )
+      }
       <Column
         title="전화번호"
         dataIndex="phone_number"
