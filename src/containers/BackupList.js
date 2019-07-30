@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import {
-  Row, Col, Table, Button, Modal, message
+  Row, Col, Table, Button, Modal, message, Popconfirm
 } from 'antd';
 import Loadable from '../components/Loadable';
 import UserList from '../components/UserList';
@@ -49,6 +49,28 @@ class BackupList extends React.Component {
     }
   }
 
+  rollback = async () => {
+    const { backup } = this.props;
+    const { currentBackup } = this.state;
+    const result = await backup.addBackup();
+    if (result) {
+      message.success('현재 데이터 백업 완료');
+      backup.rollback(currentBackup.id);
+    }
+  }
+
+  removeBackup = async () => {
+    const { backup } = this.props;
+    const { currentBackup } = this.state;
+    const result = await backup.removeBackup(currentBackup.id);
+    if (result) {
+      message.success('백업 삭제 완료');
+      this.hideModal();
+    } else {
+      message.error('백업 삭제 실패');
+    }
+  }
+
   render() {
     const { modalVisible, currentBackup } = this.state;
     const { backup, layout } = this.props;
@@ -64,11 +86,11 @@ class BackupList extends React.Component {
               <Column title="회원 수" dataIndex="userCount" key="userCount" />
               <Column title="백업 날짜" dataIndex="created_at" key="created_at" />
               <Column
-                title="회원 보기"
+                title="상세 보기"
                 key="detail"
                 render={data => (
                   <Button type="primary" icon="unordered-list" onClick={() => this.showModal(data)}>
-                    회원 보기
+                    상세 보기
                   </Button>
                 )}
               />
@@ -87,9 +109,27 @@ class BackupList extends React.Component {
           visible={modalVisible}
           onCancel={this.hideModal}
           width={layout.isCollapsed ? 520 : 800}
-          cancelText="닫기"
-          okType="danger"
-          okText="해당 데이터로 복원"
+          footer={[
+            <Button key="back" onClick={this.hideModal} type="primary">닫기</Button>,
+            <Popconfirm
+              title="해당 백업을 삭제하시겠습니까?"
+              onConfirm={this.removeBackup}
+              key="removeBackup"
+              okText="삭제"
+              cancelText="취소"
+            >
+              <Button type="danger">삭제</Button>
+            </Popconfirm>,
+            <Popconfirm
+              title="정말로 복구하시겠습니까? 현재 데이터는 자동으로 백업됩니다."
+              onConfirm={this.rollback}
+              key="rollback"
+              okText="복구"
+              cancelText="취소"
+            >
+              <Button type="danger">해당 데이터로 복구</Button>
+            </Popconfirm>
+          ]}
         >
           <UserList pageSize={5} isCollapsed={layout.isCollapsed} memberList={currentBackup.dump_data} />
         </Modal>

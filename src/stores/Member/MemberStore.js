@@ -35,7 +35,8 @@ class MemberStore {
     const response = yield axios.delete(`/users/${id}`);
     if (response.status === 204) {
       const find = this.memberList.findIndex(v => v.id === id);
-      this.memberList = this.memberList.splice(find, 1);
+      this.memberList.splice(find, 1);
+      this.memberList = this.memberList;
       return true;
     }
     return false;

@@ -71,7 +71,7 @@ function MemberAddModal(props) {
       onOk={onSubmit}
       okText="추가"
       maskClosable={false}
-      cancelText="삭제"
+      cancelText="취소"
     >
       <Form layout="inline">
         {createTextField('name', '이름', 'user')}
