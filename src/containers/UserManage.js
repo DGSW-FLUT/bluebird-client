@@ -34,8 +34,15 @@ class UserManage extends React.Component {
     }
   };
 
-  updateMember = () => {
-
+  updateMember = async (user) => {
+    const { member } = this.props;
+    const isSuccess = await member.updateMember(user);
+    if (isSuccess) {
+      message.success('수정 성공!');
+      return true;
+    }
+    message.error('수정 실패');
+    return false;
   }
 
   render() {

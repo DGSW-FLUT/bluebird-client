@@ -26,16 +26,24 @@ function MemberDetailModals(props) {
 
     callback('주소를 입력해 주세요');
   };
+
+  const onCancel = () => {
+    handleCancel();
+    setIsChange(false);
+  };
   const handleChange = (e) => {
     e.preventDefault();
-    validateFields((err, values) => {
+    validateFields(async (err, values) => {
       if (!err) {
-        onSubmit({
+        const result = await onSubmit({
           ...member,
           ...values,
           ...values.address,
           birth: values.birth.format('YYYY-MM-DD')
         });
+        if (result) {
+          onCancel();
+        }
       }
     });
   };
@@ -66,7 +74,7 @@ function MemberDetailModals(props) {
     <Modal
       visible={visible}
       title={`${member.name}님 ${isChange ? '수정' : '상세 보기'}`}
-      onCancel={handleCancel}
+      onCancel={onCancel}
       footer={
         !isChange
           ? [
@@ -75,13 +83,14 @@ function MemberDetailModals(props) {
                 title="정말로 삭제하시겠습니까?"
                 onConfirm={() => onDelete(member)}
                 okText="삭제"
+                key="delete"
                 cancelText="취소"
               >
-                <Button key="delete" type="danger">삭제</Button>
+                <Button type="danger">삭제</Button>
               </Popconfirm>
             ),
             changeable && <Button key="change" type="primary" onClick={() => setIsChange(true)}>수정</Button>,
-            <Button key="back" onClick={handleCancel} type="primary">확인</Button>
+            <Button key="back" onClick={onCancel} type="primary">확인</Button>
           ] : [
             <Button key="change_cancel" onClick={() => setIsChange(false)}>취소</Button>,
             <Button key="change_ok" type="primary" onClick={handleChange}>수정</Button>
@@ -163,10 +172,10 @@ function MemberDetailModals(props) {
               <Descriptions.Item label="주소" span={3}>
                 {member.address}
               </Descriptions.Item>
-              <Descriptions.Item label="직업">
+              <Descriptions.Item label="직업" span={1.5}>
                 {member.job}
               </Descriptions.Item>
-              <Descriptions.Item label="등급">
+              <Descriptions.Item label="등급" span={1.5}>
                 {member.level}
               </Descriptions.Item>
               <Descriptions.Item label="핸드폰 번호" span={3}>

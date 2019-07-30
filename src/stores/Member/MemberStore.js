@@ -1,5 +1,5 @@
 import {
- observable, action, computed, flow 
+  observable, action, computed, flow
 } from 'mobx';
 import axios from '../../axios';
 
@@ -30,8 +30,19 @@ class MemberStore {
   removeMember = flow(function* (id) {
     const response = yield axios.delete(`/users/${id}`);
     if (response.status === 204) {
-      const find = this.memberList.findIndex(v => v.idx === id);
+      const find = this.memberList.findIndex(v => v.id === id);
       this.memberList = this.memberList.splice(find, 1);
+      return true;
+    }
+    return false;
+  });
+
+  updateMember = flow(function* (user) {
+    const response = yield axios.patch(`/users/${user.id}`, user);
+    if (response.status === 200) {
+      const find = this.memberList.findIndex(v => v.id === user.id);
+      this.memberList[find] = response.data;
+      this.memberList = this.memberList;
       return true;
     }
     return false;
