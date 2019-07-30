@@ -8,18 +8,18 @@ const AddressPicker = (props, ref) => {
   const [isSelect, setIsSelect] = useState(false);
 
   const handleAddress = (data) => {
-    let fullAddress = data.address;
-    let extraAddress = '';
+    const fullAddress = data.address;
+    // let extraAddress = '';
 
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== '') {
-        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
-      }
-      fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
-    }
+    // if (data.addressType === 'R') {
+    //   if (data.bname !== '') {
+    //     extraAddress += data.bname;
+    //   }
+    //   if (data.buildingName !== '') {
+    //     extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+    //   }
+    //   fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+    // }
     onChange({ address: fullAddress, zip_code: data.zonecode });
     setIsSelect(false);
   };
@@ -43,7 +43,7 @@ const AddressPicker = (props, ref) => {
         <DaumPostcode
           ref={ref}
           onComplete={handleAddress}
-          defaultQuery={value.zip_code}
+          defaultQuery={value.address}
           height="100%"
         />
       </Modal>
