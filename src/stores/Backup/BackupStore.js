@@ -8,7 +8,7 @@ class BackupStore {
   backupList = [
     {
       id: 1,
-      dump_data: '{}',
+      dump_data: '[]',
       created_at: '2019-07-19 11:24:07'
     }
   ];
@@ -26,7 +26,7 @@ class BackupStore {
       const dumpData = JSON.parse(b.dump_data);
       return {
         ...b,
-        dump_data: dumpData,
+        dump_data: dumpData.filter(d => d.deleted_at === null),
         userCount: dumpData.length
       };
     });

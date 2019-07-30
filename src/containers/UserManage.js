@@ -62,6 +62,9 @@ class UserManage extends React.Component {
           <UserList
             memberList={member.memberList}
             isCollapsed={isCollapsed}
+            onDelete={this.removeMember}
+            onChange={this.updateMember}
+            changeable
             afterColumns={(
               <Column
                 key="action"

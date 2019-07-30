@@ -8,7 +8,14 @@ import MemberDetailModal from './MemberDetailModal';
 
 const UserList = (props) => {
   const {
-    isCollapsed, memberList, afterColumns, beforeColumns, pageSize
+    isCollapsed,
+    memberList,
+    afterColumns,
+    beforeColumns,
+    pageSize,
+    changeable,
+    onChange,
+    onDelete
   } = props;
   let searchInput = null;
   const [searchText, setSearchText] = useState('');
@@ -152,7 +159,9 @@ const UserList = (props) => {
         visible={isEnableModal}
         member={currentMember}
         handleCancel={() => setIsEnableModal(false)}
-        onSubmit={data => console.log(data)}
+        onChange={onChange}
+        onDelete={onDelete}
+        changeable={changeable}
       />
     </>
 
