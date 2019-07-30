@@ -4,6 +4,7 @@ import {
 } from 'antd';
 import Highlighter from 'react-highlight-words';
 import Column from 'antd/lib/table/Column';
+import MemberDetailModal from './MemberDetailModal';
 
 const UserList = (props) => {
   const {
@@ -12,6 +13,8 @@ const UserList = (props) => {
   let searchInput = null;
   const [searchText, setSearchText] = useState('');
   const [sortedInfo, setSortedInfo] = useState({});
+  const [isEnableModal, setIsEnableModal] = useState(false);
+  const [currentMember, setCurrentMember] = useState({});
 
   const handleSearch = (selectedKeys, confirm) => {
     confirm();
@@ -83,63 +86,76 @@ const UserList = (props) => {
   };
 
   return (
-    <Table
-      dataSource={memberList}
-      rowKey={user => user.id}
-      onChange={handleFilterChange}
-      pagination={{
-        pageSize: pageSize || 10
-      }}
-    >
-      {
-        beforeColumns
-      }
-      <Column
-        title="이름"
-        dataIndex="name"
-        key="name"
-        {...getColumnSearchProps('이름', 'name')}
-      />
-      {
-        // TODO: Fragment 미동작. 더 좋은 방법을 제시해주세요 ㅠㅠ
-      }
-      {
-        !isCollapsed && (
-          <Column
-            title="생년월일"
-            dataIndex="birth"
-            key="birth"
-            sorter={(a, b) => a.birth - b.birth}
-            sortOrder={sortedInfo.columnKey === 'birth' && sortedInfo.order}
-          />
-        )
-      }
-      {
-        !isCollapsed && (
-          <Column
-            title="주소"
-            dataIndex="address"
-            key="address"
-            {...getColumnSearchProps('주소', 'address')}
-          />
-        )
-      }
-      {
-        !isCollapsed && (
-          <Column title="등급" dataIndex="level" key="level" />
-        )
-      }
-      <Column
-        title="전화번호"
-        dataIndex="phone_number"
-        key="phone_number"
-        {...getColumnSearchProps('전화번호', 'phone_number')}
-      />
+    <>
+      <Table
+        dataSource={memberList}
+        rowKey={user => user.id}
+        onChange={handleFilterChange}
+        pagination={{
+          pageSize: pageSize || 10
+        }}
+        onRow={row => ({
+          onClick: () => {
+            setCurrentMember(row);
+            setIsEnableModal(true);
+          }
+        })}
 
-      {
-        afterColumns
-      }
-    </Table>
+      >
+        {
+          beforeColumns
+        }
+        <Column
+          title="이름"
+          dataIndex="name"
+          key="name"
+          {...getColumnSearchProps('이름', 'name')}
+        />
+        {
+          !isCollapsed && (
+            <Column
+              title="생년월일"
+              dataIndex="birth"
+              key="birth"
+              sorter={(a, b) => a.birth - b.birth}
+              sortOrder={sortedInfo.columnKey === 'birth' && sortedInfo.order}
+            />
+          )
+        }
+        {
+          !isCollapsed && (
+            <Column
+              title="주소"
+              dataIndex="address"
+              key="address"
+              {...getColumnSearchProps('주소', 'address')}
+            />
+          )
+        }
+        {
+          !isCollapsed && (
+            <Column title="등급" dataIndex="level" key="level" />
+          )
+        }
+        <Column
+          title="전화번호"
+          dataIndex="phone_number"
+          key="phone_number"
+          {...getColumnSearchProps('전화번호', 'phone_number')}
+        />
+
+        {
+          afterColumns
+        }
+      </Table>
+      <MemberDetailModal
+        visible={isEnableModal}
+        member={currentMember}
+        handleCancel={() => setIsEnableModal(false)}
+        onSubmit={data => console.log(data)}
+      />
+    </>
+
   );
 };
 

@@ -2,8 +2,10 @@
 const {
   override,
   fixBabelImports,
-  addDecoratorsLegacy
+  addDecoratorsLegacy,
+  addWebpackPlugin
 } = require('customize-cra');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = override(
   fixBabelImports('import', {
@@ -11,5 +13,8 @@ module.exports = override(
     libraryDirectory: 'es',
     style: 'css'
   }),
-  addDecoratorsLegacy()
+  addDecoratorsLegacy(),
+  addWebpackPlugin(new MomentLocalesPlugin({
+    localesToKeep: ['ko-kr']
+  }))
 );

@@ -7,6 +7,10 @@ import {
   Divider,
   message,
   Popconfirm,
+  Modal,
+  Form,
+  Input,
+  Icon,
 } from 'antd';
 import { inject, observer } from 'mobx-react';
 import UserList from '../components/UserList';
@@ -16,6 +20,11 @@ const { Column } = Table;
 @inject('member', 'layout')
 @observer
 class UserManage extends React.Component {
+  state = {
+    selectUser: {},
+    modalVisible: false,
+  }
+
   addMember = () => {
     const { member } = this.props;
     member.addMember({
@@ -39,8 +48,13 @@ class UserManage extends React.Component {
     }
   };
 
+  updateMember = () => {
+
+  }
+
   render() {
     const { member, layout } = this.props;
+    const { selectUser, modalVisible } = this.state;
     const { isCollapsed } = layout;
     return (
       <Row type="flex">
@@ -72,6 +86,29 @@ class UserManage extends React.Component {
         <Col span={24}>
           <Button onClick={this.addMember}>추가</Button>
         </Col>
+        <Modal
+          title={`${selectUser.name}님 수정`}
+          visible={modalVisible}
+          width={isCollapsed ? 520 : 800}
+        >
+          <Form onSubmit={this.updateMember}>
+            <Form.Item label="이름">
+              <Input
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="이름"
+                value={selectUser.name}
+                onChange={(e) => {
+                  this.setState({
+                    selectUser: {
+                      ...selectUser,
+                      name: e.target.value
+                    }
+                  });
+                }}
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
       </Row>
     );
   }

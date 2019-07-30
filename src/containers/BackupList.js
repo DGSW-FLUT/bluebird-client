@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import {
-  Row, Col, Table, Button, Upload, Modal, message
+  Row, Col, Table, Button, Modal, message
 } from 'antd';
 import Loadable from '../components/Loadable';
 import UserList from '../components/UserList';
@@ -87,6 +87,9 @@ class BackupList extends React.Component {
           visible={modalVisible}
           onCancel={this.hideModal}
           width={layout.isCollapsed ? 520 : 800}
+          cancelText="닫기"
+          okType="danger"
+          okText="해당 데이터로 복원"
         >
           <UserList pageSize={5} isCollapsed={layout.isCollapsed} memberList={currentBackup.dump_data} />
         </Modal>
