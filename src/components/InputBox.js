@@ -17,7 +17,7 @@ const InputBox = ({
           <Input
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="아이디"
-            // onChange={this.setAccount}
+            onChange={e => setAccount(e.target.value)}
           />
         </Form.Item>
       )}

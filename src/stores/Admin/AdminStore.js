@@ -42,6 +42,16 @@ class AdminStore {
     }
   }
 
+  async add(data) {
+    try {
+      await axios.post('/auth', data).then((res) => {
+        if (res.status === 200) return true;
+      });
+    } catch (err) {
+      return false;
+    }
+  }
+
   // login = flow(function* ({ account, password }) {
   //   try {
   //     const { data } = yield axios.post('/api/auth/login', {
