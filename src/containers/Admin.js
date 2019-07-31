@@ -15,12 +15,14 @@ class Admin extends React.Component {
     switch (type) {
       case 1:
         admin.changePw(password) ? message.success('변경완료') : message.success('변경 실패');
+        break;
       case 2:
         admin.add({ account, password }) === true
           ? message.success('추가 완료')
           : message.error('이미 있는 계정이에요');
-
+        break;
       default:
+        break;
     }
   };
 
