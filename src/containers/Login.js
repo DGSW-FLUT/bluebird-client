@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Form, Input, Icon, Button, message
+ Form, Input, Icon, Button, message 
 } from 'antd';
 
 import { withRouter } from 'react-router-dom';

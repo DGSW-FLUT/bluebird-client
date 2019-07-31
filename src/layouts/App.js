@@ -9,6 +9,7 @@ import Dashboard from '../containers/Dashboard';
 import UserManage from '../containers/UserManage';
 import BackupList from '../containers/BackupList';
 import Login from '../containers/Login';
+import Admin from '../containers/Admin';
 
 import Message from '../containers/Message';
 
@@ -22,7 +23,7 @@ const App = () => (
     <RouteWithLayout path="/user/*" layout={DefaultLayout} component={() => <div>Making</div>} />
     <RouteWithLayout path="/message" layout={DefaultLayout} component={Message} />
     <RouteWithLayout path="/backup" layout={DefaultLayout} component={BackupList} />
-    <RouteWithLayout path="/admin" layout={DefaultLayout} component={() => <div>Making</div>} />
+    <RouteWithLayout path="/admin" layout={DefaultLayout} component={Admin} />
     {/* FullpageLayout */}
     <RouteWithLayout path="/login" layout={FullpageLayout} component={Login} />
     <RouteWithLayout path="*" layout={FullpageLayout} component={() => <div>404</div>} />
