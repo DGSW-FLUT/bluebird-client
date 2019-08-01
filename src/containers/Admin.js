@@ -33,10 +33,14 @@ class Admin extends React.Component {
     }
   };
 
-  handleRemove = (id) => {
+  handleRemove = async (data) => {
     const { manager } = this.props;
-
-    manager.removeAdmin(id);
+    const result = await manager.removeAdmin(data);
+    if (result) {
+      message.success('삭제 완료');
+    } else {
+      message.error('삭제 실패');
+    }
   };
 
   render() {
@@ -59,7 +63,7 @@ class Admin extends React.Component {
             renderItem={item => (
               <List.Item
                 actions={[
-                  <Button type="danger" onClick={() => this.handleRemove(item.id)}>
+                  <Button type="danger" onClick={() => this.handleRemove(item)}>
                     삭제
                   </Button>
                 ]}

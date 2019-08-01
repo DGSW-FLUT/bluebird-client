@@ -38,9 +38,14 @@ class ManagerStore {
     }
   });
 
-  removeAdmin = flow(function* (id) {
-    const response = yield axios.delete(`/auth/${id}`);
-    console.log(response);
+  @action
+  removeAdmin = flow(function* (data) {
+    const response = yield axios.delete(`/auth/${data.id}`);
+    if (response.status === 204) {
+      this.adminList = this.adminList.filter(el => data !== el);
+      return true;
+    }
+    return false;
   });
 }
 
