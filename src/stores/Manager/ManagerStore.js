@@ -13,16 +13,13 @@ class ManagerStore {
 
   @action
   add = flow(function* (data) {
-    try {
-      const response = yield axios.post('/auth', data);
-      if (response.status === 200) {
-        const result = response.data;
-        this.adminList = this.adminList.concat(result);
-        return true;
-      }
-    } catch (err) {
-      return false;
+    const response = yield axios.post('/auth', data);
+    if (response.status === 200) {
+      const result = response.data;
+      this.adminList = this.adminList.concat(result);
+      return true;
     }
+    return false;
   });
 
   @observable
