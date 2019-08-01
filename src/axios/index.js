@@ -22,7 +22,7 @@ axios.interceptors.response.use(response => response, (error) => {
     // eslint-disable-next-line no-restricted-globals
     location.href = '/login';
   }
-  return Promise.reject(error);
+  return error;
 });
 
 observe(adminStore, (change) => {
