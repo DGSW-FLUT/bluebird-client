@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import {
-  observable, flow, action, computed
+ observable, flow, action, computed 
 } from 'mobx';
 import { notification } from 'antd';
 import axios from '../../axios';
@@ -18,7 +18,7 @@ class BackupStore {
       return true;
     }
     return false;
-  })
+  });
 
   rollback = flow(function* (id) {
     const response = yield axios.get(`/backup/rollback/${id}`);
@@ -49,14 +49,14 @@ class BackupStore {
         description: `${response.message}`
       });
     }
-  })
+  });
 
   fetchBackupList = flow(function* () {
     const response = yield axios.get('/backup');
     if (response.status === 200) {
       this.backupList = response.data;
     }
-  })
+  });
 
   @computed
   get backups() {
@@ -79,7 +79,7 @@ class BackupStore {
       return true;
     }
     return false;
-  })
+  });
 }
 
 export default BackupStore;

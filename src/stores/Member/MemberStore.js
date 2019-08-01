@@ -1,6 +1,4 @@
-import {
-  observable, computed, flow
-} from 'mobx';
+import { observable, computed, flow } from 'mobx';
 import axios from '../../axios';
 
 /**

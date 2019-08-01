@@ -1,7 +1,5 @@
 import { observable, computed, action } from 'mobx';
 
-import axios from '../../axios';
-
 /**
  * Admin Store만 singleton으로 생성
  */
@@ -32,24 +30,6 @@ class AdminStore {
   setJwtToken(jwt) {
     this.jwt = jwt;
     localStorage.setItem('jwt', jwt);
-  }
-
-  async changePw(password) {
-    try {
-      await axios.patch('/auth', { password }).then(res => true);
-    } catch (err) {
-      return false;
-    }
-  }
-
-  async add(data) {
-    try {
-      await axios.post('/auth', data).then((res) => {
-        if (res.status === 200) return true;
-      });
-    } catch (err) {
-      return false;
-    }
   }
 
   // login = flow(function* ({ account, password }) {
