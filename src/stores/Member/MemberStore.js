@@ -59,11 +59,6 @@ class MemberStore {
   }
 
   @computed
-  get memberPhoneNumbers() {
-    return this.memberList.map(m => m.phone_number);
-  }
-
-  @computed
   get regularMemberCount() {
     return this.memberList.filter(m => m.level === '정회원').length;
   }
