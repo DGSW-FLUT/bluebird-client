@@ -9,12 +9,13 @@ import routes from '../routes';
 
 const { Sider, Header, Content } = Layout;
 
-@inject('layout', 'member')
+@inject('layout', 'member', 'manager')
 @observer
 class DefaultLayout extends React.Component {
   componentWillMount() {
-    const { member } = this.props;
+    const { member, manager } = this.props;
     member.fetchMemberList();
+    manager.fetchAdminList();
   }
 
   setCollapsed = (collapsed) => {
