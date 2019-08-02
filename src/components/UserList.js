@@ -15,7 +15,8 @@ const UserList = (props) => {
     pageSize,
     changeable,
     onChange,
-    onDelete
+    onDelete,
+    ...otherProps
   } = props;
   let searchInput = null;
   const [searchText, setSearchText] = useState('');
@@ -107,6 +108,7 @@ const UserList = (props) => {
             setIsEnableModal(true);
           }
         })}
+        {...otherProps}
 
       >
         {

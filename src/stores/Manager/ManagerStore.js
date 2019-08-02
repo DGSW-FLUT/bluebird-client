@@ -1,5 +1,5 @@
 import {
- observable, computed, action, flow 
+  observable, computed, action, flow
 } from 'mobx';
 
 import axios from '../../axios';

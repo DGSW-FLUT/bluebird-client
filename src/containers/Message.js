@@ -1,17 +1,27 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import {
-  Row, Col, AutoComplete, Button, Typography, Tag
+  Row, Col, AutoComplete, Button, Typography, Tag, Tooltip, Modal, Input
 } from 'antd';
+import UserList from '../components/UserList';
+import MemberDetailModal from '../components/MemberDetailModal';
+import config from '../config';
+import TemplateModal from '../components/TemplateModal';
 
 const { Text } = Typography;
-@inject('layout', 'member')
+@inject('member')
 @observer
 class Message extends React.Component {
   state = {
     receiveMembers: [],
-    searchKeyword: ''
+    searchKeyword: '',
+    memberModal: false,
+    memberDetailModal: false,
+    currentMember: {},
+    content: ''
   }
+
+  isMMS = false;
 
   createAutoCompleteItem = member => (
     <AutoComplete.Option key={member.id} text={member.name}>
@@ -40,6 +50,12 @@ class Message extends React.Component {
     });
   }
 
+  closeModal = () => {
+    this.setState({
+      memberModal: false
+    });
+  }
+
   onSelect = (id) => {
     const { receiveMembers } = this.state;
     this.setState({
@@ -49,12 +65,22 @@ class Message extends React.Component {
 
   render() {
     const { member } = this.props;
-    const { receiveMembers } = this.state;
+    const {
+      receiveMembers, memberModal, memberDetailModal, currentMember, content
+    } = this.state;
+
+    const messageLength = (function (s, b, i, c) {
+      // eslint-disable-next-line
+      for (b = i = 0; c = s.charCodeAt(i++); b += c >> 7 ? 2 : 1);
+      return b;
+    }(content));
+
+    this.isMMS = messageLength >= 90;
     return (
       <div>
         <Row>
           <Col>
-            수신인
+            <h3>수신인</h3>
           </Col>
         </Row>
         <Row>
@@ -63,38 +89,113 @@ class Message extends React.Component {
               receiveMembers.map((m, idx) => {
                 const find = member.memberList.find(v => v.id === m);
                 return (
-                  <Tag
-                    closable
-                    onClose={() => {
-                      this.setState({
-                        receiveMembers: receiveMembers.splice(idx, 1)
-                      });
-                    }}
-                  >
-                    {find.name}
-                  </Tag>
+                  <Tooltip title={find.phone_number} key={m}>
+                    <Tag
+                      closable
+                      onClose={() => {
+                        this.setState({
+                          receiveMembers: receiveMembers.splice(idx, 1)
+                        });
+                      }}
+                      onClick={() => {
+                        this.setState({
+                          memberDetailModal: true,
+                          currentMember: find
+                        });
+                      }}
+                    >
+                      {find.name}
+                    </Tag>
+                  </Tooltip>
+
                 );
               })
             }
           </Col>
+          <Col>
+            총
+            {
+              ` ${receiveMembers.length} / ${member.memberList.length} 명`
+            }
+          </Col>
         </Row>
         <Row>
-          <Col>
+          <Col style={{ marginTop: '5px' }}>
             <AutoComplete
+              style={{ width: '120px' }}
               dataSource={this.getDataSource()}
               onSearch={this.onSearch}
               onSelect={this.onSelect}
+              size="small"
+              placeholder="직접 입력"
               optionLabelProp="text"
             />
           </Col>
           <Col>
+
+            <Button
+              type="link"
+              onClick={() => {
+                this.setState({
+                  receiveMembers: member.memberList.map(m => m.id)
+                });
+              }}
+            >
+              모든 회원
+
+            </Button>
+            <Button type="link">회비를 납부하지 않은 회원</Button>
+
             <Button
               type="primary"
+              onClick={() => this.setState({ memberModal: true })}
             >
               직접 선택
             </Button>
           </Col>
 
+          <Modal
+            visible={memberModal}
+            title="수신인을 선택해 주세요"
+            onCancel={this.closeModal}
+            footer={[
+              <Button key="close" type="primary" onClick={this.closeModal}>확인</Button>
+            ]}
+          >
+            <UserList
+              memberList={member.memberList}
+              isCollapsed
+              rowSelection={{
+                selectedRowKeys: receiveMembers,
+                onChange: (selectedRowKeys) => {
+                  this.setState({ receiveMembers: selectedRowKeys });
+                },
+                getCheckboxProps: record => ({
+                  key: record.id
+                })
+              }}
+            />
+          </Modal>
+          <MemberDetailModal
+            visible={memberDetailModal}
+            handleCancel={() => this.setState({ memberDetailModal: false })}
+            member={currentMember}
+          />
+        </Row>
+        <Row>
+          <Col>
+            <h3>보낼 메시지</h3>
+          </Col>
+          <Col>
+            <TemplateModal onTemplateSelect={(c) => {
+              this.setState({ content: c });
+            }}
+            />
+          </Col>
+          <Col>
+            <Input.TextArea value={content} onChange={e => this.setState({ content: e.target.value })} autosize={{ minRows: 4 }} />
+            {this.isMMS ? 'MMS' : `(${messageLength} / ${config.maxSmsSize} byte) 넘을 시 MMS로 변환`}
+          </Col>
         </Row>
       </div>
     );
