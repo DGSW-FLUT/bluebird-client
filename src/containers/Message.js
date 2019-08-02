@@ -1,12 +1,13 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import {
-  Row, Col, AutoComplete, Button, Typography, Tag, Tooltip, Modal, Input
+  Row, Col, AutoComplete, Button, Typography, Tag, Tooltip, Modal, Input, message
 } from 'antd';
 import UserList from '../components/UserList';
 import MemberDetailModal from '../components/MemberDetailModal';
 import config from '../config';
 import TemplateModal from '../components/TemplateModal';
+import axios from '../axios';
 
 const { Text } = Typography;
 @inject('member')
@@ -63,6 +64,24 @@ class Message extends React.Component {
     });
   }
 
+  onMessageSend = async () => {
+    const { member } = this.props;
+    const { receiveMembers, content } = this.state;
+    const phoneNumbers = member.memberList.filter(m => receiveMembers.indexOf(m.id) > -1).map(m => m.phone_number);
+    const response = await axios.post(`/messages/send/${this.isMMS ? 'mms' : 'sms'}`, {
+      message: content,
+      recipients: phoneNumbers
+    });
+
+    console.log(response);
+
+    if (response.status === 200) {
+      message.success('전송 성공');
+    } else {
+      message.error('전송 실패');
+    }
+  }
+
   render() {
     const { member } = this.props;
     const {
@@ -92,12 +111,15 @@ class Message extends React.Component {
                   <Tooltip title={find.phone_number} key={m}>
                     <Tag
                       closable
-                      onClose={() => {
+                      onClose={(e) => {
+                        e.stopPropagation();
+                        receiveMembers.splice(idx, 1);
                         this.setState({
-                          receiveMembers: receiveMembers.splice(idx, 1)
+                          receiveMembers
                         });
                       }}
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         this.setState({
                           memberDetailModal: true,
                           currentMember: find
@@ -196,6 +218,9 @@ class Message extends React.Component {
             <Input.TextArea value={content} onChange={e => this.setState({ content: e.target.value })} autosize={{ minRows: 4 }} />
             {this.isMMS ? 'MMS' : `(${messageLength} / ${config.maxSmsSize} byte) 넘을 시 MMS로 변환`}
           </Col>
+        </Row>
+        <Row style={{ marginTop: '10px' }}>
+          <Button type="primary" onClick={this.onMessageSend}>보내기</Button>
         </Row>
       </div>
     );
