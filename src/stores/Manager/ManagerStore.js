@@ -1,6 +1,4 @@
-import {
-  observable, computed, action, flow
-} from 'mobx';
+import { observable, action, flow } from 'mobx';
 
 import axios from '../../axios';
 
@@ -15,16 +13,13 @@ class ManagerStore {
 
   @action
   add = flow(function* (data) {
-    try {
-      const response = yield axios.post('/auth', data);
-      if (response.status === 200) {
-        const result = response.data;
-        this.adminList = this.adminList.concat(result);
-        return true;
-      }
-    } catch (err) {
-      return false;
+    const response = yield axios.post('/auth', data);
+    if (response.status === 200) {
+      const result = response.data;
+      this.adminList = this.adminList.concat(result);
+      return true;
     }
+    return false;
   });
 
   @observable
@@ -38,9 +33,14 @@ class ManagerStore {
     }
   });
 
-  removeAdmin = flow(function* (id) {
-    const response = yield axios.delete(`/auth/${id}`);
-    console.log(response);
+  @action
+  removeAdmin = flow(function* (data) {
+    const response = yield axios.delete(`/auth/${data.id}`);
+    if (response.status === 204) {
+      this.adminList = this.adminList.filter(el => data !== el);
+      return true;
+    }
+    return false;
   });
 }
 

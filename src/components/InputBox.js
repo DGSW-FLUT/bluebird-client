@@ -10,6 +10,12 @@ const InputBox = ({
   const [account, setAccount] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  const clearInput = () => {
+    console.log('clear');
+    setAccount('');
+    setPassword('');
+  };
+
   return (
     <Form layout="inline">
       {isId && (
@@ -17,6 +23,7 @@ const InputBox = ({
           <Input
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="아이디"
+            value={account}
             onChange={e => setAccount(e.target.value)}
           />
         </Form.Item>
@@ -27,6 +34,7 @@ const InputBox = ({
           <Input
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="패스워드"
+            value={password}
             onChange={e => setPassword(e.target.value)}
           />
         </Form.Item>
@@ -37,6 +45,7 @@ const InputBox = ({
           type="primary"
           onClick={() => {
             handleSubmit(account, password, type);
+            clearInput();
           }}
         >
           확인

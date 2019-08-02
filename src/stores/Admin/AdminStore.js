@@ -31,18 +31,6 @@ class AdminStore {
     this.jwt = jwt;
     localStorage.setItem('jwt', jwt);
   }
-
-  // login = flow(function* ({ account, password }) {
-  //   try {
-  //     const { data } = yield axios.post('/api/auth/login', {
-  //       account,
-  //       password
-  //     });
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // })
 }
 
 export default AdminStore;
