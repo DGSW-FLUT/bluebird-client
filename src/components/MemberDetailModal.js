@@ -139,6 +139,7 @@ function MemberDetailModals(props) {
               {
                 createTextField('phone_number', '핸드폰 번호', 'phone', '010-1234-5678')
               }
+
               <Form.Item label="등급">
                 {
                   getFieldDecorator('level',
