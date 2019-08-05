@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Input, Icon, Table, Button
+ Input, Icon, Table, Button 
 } from 'antd';
 import Highlighter from 'react-highlight-words';
 import Column from 'antd/lib/table/Column';
@@ -42,9 +42,7 @@ const UserList = (props) => {
           }}
           placeholder={`${title} 검색`}
           value={dropdown.selectedKeys[0]}
-          onChange={e =>
-            dropdown.setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
+          onChange={e => dropdown.setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(dropdown.selectedKeys, dropdown.confirm)}
           style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
@@ -109,54 +107,45 @@ const UserList = (props) => {
           }
         })}
         {...otherProps}
-
       >
-        {
-          beforeColumns
-        }
+        {beforeColumns}
         <Column
           title="이름"
           dataIndex="name"
           key="name"
           {...getColumnSearchProps('이름', 'name')}
         />
-        {
-          !isCollapsed && (
-            <Column
-              title="생년월일"
-              dataIndex="birth"
-              key="birth"
-              sorter={(a, b) => a.birth - b.birth}
-              sortOrder={sortedInfo.columnKey === 'birth' && sortedInfo.order}
-            />
-          )
-        }
-        {
-          !isCollapsed && (
-            <Column
-              title="주소"
-              dataIndex="address"
-              key="address"
-              {...getColumnSearchProps('주소', 'address')}
-            />
-          )
-        }
-        {
-          !isCollapsed && (
-            <Column title="등급" dataIndex="level" key="level" />
-          )
-        }
+        {!isCollapsed && (
+          <Column
+            title="생년월일"
+            dataIndex="birth"
+            key="birth"
+            sorter={(a, b) => a.birth - b.birth}
+            sortOrder={sortedInfo.columnKey === 'birth' && sortedInfo.order}
+          />
+        )}
+        {!isCollapsed && (
+          <Column
+            title="주소"
+            dataIndex="address"
+            key="address"
+            {...getColumnSearchProps('주소', 'address')}
+          />
+        )}
+        {!isCollapsed && <Column title="등급" dataIndex="level" key="level" />}
         <Column
           title="전화번호"
           dataIndex="phone_number"
           key="phone_number"
           {...getColumnSearchProps('전화번호', 'phone_number')}
-          render={text => (<a onClick={e => e.stopPropagation()} href={`callto:${text}`}>{text}</a>)}
+          render={text => (
+            <a onClick={e => e.stopPropagation()} href={`callto:${text}`}>
+              {text}
+            </a>
+          )}
         />
 
-        {
-          afterColumns
-        }
+        {afterColumns}
       </Table>
       <MemberDetailModal
         visible={isEnableModal}
@@ -167,7 +156,6 @@ const UserList = (props) => {
         changeable={changeable}
       />
     </>
-
   );
 };
 

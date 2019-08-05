@@ -1,9 +1,6 @@
 import React from 'react';
 import {
-  Col,
-  Row,
-  Button,
-  message,
+ Col, Row, Button, message 
 } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { observable } from 'mobx';
@@ -15,6 +12,17 @@ import MemberAddModal from '../components/MemberAddModal';
 class UserManage extends React.Component {
   @observable showModal = false;
 
+  state = {
+    receiveMembers: []
+  };
+
+  componentDidMount() {
+    const { member } = this.props;
+    this.setState({
+      receiveMembers: member.memberList.filter(m => m.paid_at === 'O').map(m => m.id)
+    });
+  }
+
   addMember = async (user) => {
     const { member } = this.props;
     const isSuccess = await member.addMember(user);
@@ -25,7 +33,6 @@ class UserManage extends React.Component {
     message.error('회원 추가 실패');
     return false;
   };
-
 
   removeMember = async (user) => {
     const { member } = this.props;
@@ -46,11 +53,17 @@ class UserManage extends React.Component {
     }
     message.error('수정 실패');
     return false;
-  }
+  };
+
+  setPayment = async (id) => {
+    console.log(id);
+  };
 
   render() {
     const { member, layout } = this.props;
     const { isCollapsed } = layout;
+    const { receiveMembers } = this.state;
+
     return (
       <Row type="flex">
         <Col span={24}>
@@ -59,15 +72,34 @@ class UserManage extends React.Component {
             isCollapsed={isCollapsed}
             onDelete={this.removeMember}
             onChange={this.updateMember}
+            rowSelection={{
+              selectedRowKeys: receiveMembers,
+              onChange: (selectedRowKeys, idx) => {
+                this.setPayment(idx);
+                this.setState({ receiveMembers: selectedRowKeys });
+              },
+              getCheckboxProps: record => ({
+                key: record.id
+              })
+            }}
             changeable
           />
         </Col>
         <Col span={24}>
-          <Button type="primary" onClick={() => { this.showModal = true; }}>추가</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              this.showModal = true;
+            }}
+          >
+            추가
+          </Button>
         </Col>
         <MemberAddModal
           visible={this.showModal}
-          handleCancel={() => { this.showModal = false; }}
+          handleCancel={() => {
+            this.showModal = false;
+          }}
           onAdd={this.addMember}
         />
       </Row>

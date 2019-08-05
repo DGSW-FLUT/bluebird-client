@@ -11,6 +11,10 @@ class MemberStore {
   @observable
   isFetched = false;
 
+  constructor() {
+    this.fetchMemberList();
+  }
+
   addMember = flow(function* (member) {
     const response = yield axios.post('/users', member);
     if (response.status === 201) {
@@ -24,6 +28,7 @@ class MemberStore {
     const response = yield axios.get('/users');
     if (response.status === 200) {
       const { data } = response;
+      console.log(data);
       this.memberList = data;
       this.isFetched = true;
     }

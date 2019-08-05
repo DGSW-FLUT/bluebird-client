@@ -20,7 +20,6 @@ class Admin extends React.Component {
         break;
       case 2:
         const result = await manager.add({ account, password });
-        console.log(result);
         if (result) {
           message.success('추가 완료');
         } else {
