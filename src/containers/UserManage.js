@@ -16,8 +16,9 @@ class UserManage extends React.Component {
     receiveMembers: []
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { member } = this.props;
+    await member.fetchMemberList();
     this.setState({
       receiveMembers: member.memberList.filter(m => m.paid_at === 'O').map(m => m.id)
     });
@@ -56,7 +57,9 @@ class UserManage extends React.Component {
   };
 
   setPayment = async (id) => {
-    console.log(id);
+    const { member } = this.props;
+    const { receiveMembers } = this.state;
+    member.setPayment(id, receiveMembers.includes(id));
   };
 
   render() {
@@ -74,9 +77,14 @@ class UserManage extends React.Component {
             onChange={this.updateMember}
             rowSelection={{
               selectedRowKeys: receiveMembers,
-              onChange: (selectedRowKeys, idx) => {
-                this.setPayment(idx);
+              onChange: (selectedRowKeys) => {
                 this.setState({ receiveMembers: selectedRowKeys });
+              },
+              onSelect: (record) => {
+                this.setPayment(record.id);
+              },
+              onSelectAll: (record) => {
+                console.log(record);
               },
               getCheckboxProps: record => ({
                 key: record.id

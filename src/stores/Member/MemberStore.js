@@ -11,10 +11,6 @@ class MemberStore {
   @observable
   isFetched = false;
 
-  constructor() {
-    this.fetchMemberList();
-  }
-
   addMember = flow(function* (member) {
     const response = yield axios.post('/users', member);
     if (response.status === 201) {
@@ -54,6 +50,11 @@ class MemberStore {
       return true;
     }
     return false;
+  });
+
+  setPayment = flow(function* (id, value) {
+    const response = yield axios.patch(`/fee/payment/${id}`, { value });
+    console.log(response);
   });
 
   @computed
