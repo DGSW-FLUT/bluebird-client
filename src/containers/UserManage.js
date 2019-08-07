@@ -1,7 +1,8 @@
 import React from 'react';
 import {
- Col, Row, Button, message 
+ Col, Row, Button, message, Checkbox 
 } from 'antd';
+import Column from 'antd/lib/table/Column';
 import { inject, observer } from 'mobx-react';
 import { observable } from 'mobx';
 import UserList from '../components/UserList';
@@ -12,16 +13,12 @@ import MemberAddModal from '../components/MemberAddModal';
 class UserManage extends React.Component {
   @observable showModal = false;
 
-  state = {
-    receiveMembers: []
-  };
-
   async componentDidMount() {
     const { member } = this.props;
     await member.fetchMemberList();
-    this.setState({
-      receiveMembers: member.memberList.filter(m => m.paid_at === 'O').map(m => m.id)
-    });
+    // this.setState({
+    //   receiveMembers: member.memberList.filter(m => m.paid_at === 'O').map(m => m.id)
+    // });
   }
 
   addMember = async (user) => {
@@ -56,16 +53,14 @@ class UserManage extends React.Component {
     return false;
   };
 
-  setPayment = async (id) => {
+  setPayment = async (id, value) => {
     const { member } = this.props;
-    const { receiveMembers } = this.state;
-    member.setPayment(id, receiveMembers.includes(id));
+    member.setPayment(id, value);
   };
 
   render() {
     const { member, layout } = this.props;
     const { isCollapsed } = layout;
-    const { receiveMembers } = this.state;
 
     return (
       <Row type="flex">
@@ -75,21 +70,20 @@ class UserManage extends React.Component {
             isCollapsed={isCollapsed}
             onDelete={this.removeMember}
             onChange={this.updateMember}
-            rowSelection={{
-              selectedRowKeys: receiveMembers,
-              onChange: (selectedRowKeys) => {
-                this.setState({ receiveMembers: selectedRowKeys });
-              },
-              onSelect: (record) => {
-                this.setPayment(record.id);
-              },
-              onSelectAll: (record) => {
-                console.log(record);
-              },
-              getCheckboxProps: record => ({
-                key: record.id
-              })
-            }}
+
+            afterColumns={(
+              <Column
+                title="납부 여부"
+                dataIndex="paid_at"
+                key="paid_at"
+                render={(text, record) => 
+                <Checkbox 
+                onClick={e => {
+                  e.stopPropagation();                  
+                  this.setPayment(record.id, !e.target.checked);
+                }} checked={text === 'O'} />}
+              />
+)}
             changeable
           />
         </Col>

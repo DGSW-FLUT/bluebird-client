@@ -54,7 +54,11 @@ class MemberStore {
 
   setPayment = flow(function* (id, value) {
     const response = yield axios.patch(`/fee/payment/${id}`, { value });
-    console.log(response);
+    // 200 add 204 delete
+    if (response.status === 200 || 204) {
+      this.memberList = this.memberList.map(member =>
+        (member.id === id ? { ...member, paid_at: value ? 'X' : 'O' } : member));
+    }
   });
 
   @computed
