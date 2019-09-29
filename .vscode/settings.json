@@ -1,4 +1,5 @@
 {
   "eslint.packageManager": "yarn",
-  "eslint.autoFixOnSave": true
+  "eslint.autoFixOnSave": true,
+  "editor.formatOnPaste": false,
 }
