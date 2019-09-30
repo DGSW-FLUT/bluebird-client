@@ -8,6 +8,7 @@ import MemberDetailModal from '../components/MemberDetailModal';
 import config from '../config';
 import TemplateModal from '../components/TemplateModal';
 import axios from '../axios';
+import SendPhoneModal from '../components/SendPhoneModal';
 
 const { Text } = Typography;
 @inject('member')
@@ -19,7 +20,8 @@ class Message extends React.Component {
     memberModal: false,
     memberDetailModal: false,
     currentMember: {},
-    content: ''
+    content: '',
+    sendPhone: ''
   }
 
   isMMS = false;
@@ -85,7 +87,7 @@ class Message extends React.Component {
   render() {
     const { member } = this.props;
     const {
-      receiveMembers, memberModal, memberDetailModal, currentMember, content
+      receiveMembers, memberModal, memberDetailModal, currentMember, content, sendPhone
     } = this.state;
 
     const messageLength = (function (s, b, i, c) {
@@ -213,10 +215,18 @@ class Message extends React.Component {
               this.setState({ content: c });
             }}
             />
+            <SendPhoneModal
+              onPhoneSelect={(c) => {
+                this.setState({ sendPhone: c });
+              }}
+            />
           </Col>
           <Col>
             <Input.TextArea value={content} onChange={e => this.setState({ content: e.target.value })} autosize={{ minRows: 4 }} />
             {this.isMMS ? 'MMS' : `(${messageLength} / ${config.maxSmsSize} byte) 넘을 시 MMS로 변환`}
+          </Col>
+          <Col>
+            {`발신 번호 : ${sendPhone}`}
           </Col>
         </Row>
         <Row style={{ marginTop: '10px' }}>
