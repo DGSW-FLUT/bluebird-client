@@ -9,7 +9,8 @@ function SendPhoneAddModal(props) {
   const [phone, setPhone] = useState('');
   const [file, setFile] = useState();
   const onFileUpload = useCallback((e) => {
-    setFile(e.file);
+    console.log(e);
+    setFile(e.file.originFileObj);
   }, []);
   return (
     <React.Fragment {...otherProps}>
@@ -23,6 +24,8 @@ function SendPhoneAddModal(props) {
         maskClosable={false}
         onOk={() => {
           onAddSendPhone(phone, file);
+          setPhone('');
+          setFile('');
           setShowModal(false);
         }}
       >
