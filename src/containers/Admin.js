@@ -1,9 +1,9 @@
-import React from 'react';
 import {
- Layout, message, List, Button 
+ Button, Layout, List, message 
 } from 'antd';
-
 import { inject, observer } from 'mobx-react';
+import React from 'react';
+
 import InputBox from '../components/InputBox';
 
 const { Content } = Layout;

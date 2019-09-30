@@ -1,9 +1,11 @@
-import React from 'react';
 import {
-  Form, Modal, Input, Icon, DatePicker, Select
+ DatePicker, Form, Icon, Input, Modal, Select 
 } from 'antd';
-import AddressPicker from './AddressPicker';
+import React from 'react';
+
 import config from '../config';
+import AddressPicker from './AddressPicker';
+import CareerListInput from './CareerListInput';
 
 const { levelType } = config;
 
@@ -109,8 +111,20 @@ function MemberAddModal(props) {
           createTextField('job', '직업', 'idcard')
         }
         {
+          createTextField('education', '학력', 'bank')
+        }
+        {
           createTextField('phone_number', '핸드폰 번호', 'phone', '010-1234-5678')
         }
+        <Form.Item label="경력">
+          {
+            getFieldDecorator('careers', {
+              initialValue: []
+            })(
+              <CareerListInput />
+            )
+          }
+        </Form.Item>
         <Form.Item label="등급">
           {
             getFieldDecorator('level',

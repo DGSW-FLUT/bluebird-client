@@ -1,14 +1,15 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
 import {
-  Row, Col, AutoComplete, Button, Typography, Tag, Tooltip, Modal, Input, message
+ AutoComplete, Button, Col, Input, message, Modal, Row, Tag, Tooltip, Typography 
 } from 'antd';
-import UserList from '../components/UserList';
-import MemberDetailModal from '../components/MemberDetailModal';
-import config from '../config';
-import TemplateModal from '../components/TemplateModal';
+import { inject, observer } from 'mobx-react';
+import React from 'react';
+
 import axios from '../axios';
+import MemberDetailModal from '../components/MemberDetailModal';
+import TemplateModal from '../components/TemplateModal';
 import SendPhoneModal from '../components/SendPhoneModal';
+import UserList from '../components/UserList';
+import config from '../config';
 
 const { Text } = Typography;
 @inject('member')
@@ -168,7 +169,14 @@ class Message extends React.Component {
               모든 회원
 
             </Button>
-            <Button type="link">회비를 납부하지 않은 회원</Button>
+            <Button
+              type="link"
+              onClick={() => {
+              this.setState({ receiveMembers: member.memberList.filter(m => m.paid_at === 'X').map(m => m.id) });
+            }}
+            >
+              회비를 납부하지 않은 회원
+            </Button>
 
             <Button
               type="primary"
