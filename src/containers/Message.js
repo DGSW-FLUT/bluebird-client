@@ -69,14 +69,15 @@ class Message extends React.Component {
 
   onMessageSend = async () => {
     const { member } = this.props;
-    const { receiveMembers, content } = this.state;
+    const { receiveMembers, content, sendPhone } = this.state;
     const phoneNumbers = member.memberList.filter(m => receiveMembers.indexOf(m.id) > -1).map(m => m.phone_number);
     const response = await axios.post(`/messages/send/${this.isMMS ? 'mms' : 'sms'}`, {
       message: content,
-      recipients: phoneNumbers
+      recipients: phoneNumbers,
+      sendNo: sendPhone
     });
 
-    console.log(response);
+    console.dir(response);
 
     if (response.status === 200) {
       message.success('전송 성공');

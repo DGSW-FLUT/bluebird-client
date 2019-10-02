@@ -17,7 +17,6 @@ class SendPhoneModal extends React.Component {
   async componentDidMount() {
     const nums = await axios.get('/messages/numbers?pageNum=1');
     if (nums.status === 200) {
-      console.log(nums.data);
       this.setState({
         sendPhones: eval(`(${nums.data})`),
       });
@@ -28,7 +27,6 @@ class SendPhoneModal extends React.Component {
     const phones = [];
     const { data } = eval(`(${numms.data})`);
     data.forEach((phone, index) => {
-      console.log(phone);
       phones.push({
         sendNo: phone.sendNos[0],
         // eslint-disable-next-line no-nested-ternary
