@@ -13,7 +13,6 @@ class MemberStore {
 
   addMember = flow(function* (member) {
     const response = yield axios.post('/users', member);
-    console.log(response);
     if (response.status === 201) {
       this.memberList = this.memberList.concat(response.data);
       return true;

@@ -30,7 +30,7 @@ function MemberAddModal(props) {
           ...values,
           ...values.address,
           birth: values.birth.format('YYYY-MM-DD'),
-          agree
+          agree: agree ? '1' : '0'
         });
         if (result) {
           onCancel();

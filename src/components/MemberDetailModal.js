@@ -1,16 +1,25 @@
 import 'moment/locale/ko';
 
 import {
- Button, DatePicker, Descriptions, Form, Icon, Input, Modal, Popconfirm, Select 
+  Button,
+  DatePicker,
+  Descriptions,
+  Form,
+  Icon,
+  Input,
+  Modal,
+  Popconfirm,
+  Select,
+  Checkbox
 } from 'antd';
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import config from '../config';
 import AddressPicker from './AddressPicker';
 import CareerListInput from './CareerListInput';
 
-const { levelType } = config;
+const { levelType, genderType } = config;
 function MemberDetailModals(props) {
   const {
     form,
@@ -23,7 +32,12 @@ function MemberDetailModals(props) {
   } = props;
   const { getFieldDecorator, validateFields } = form;
 
+  const [agree, setAgree] = useState(member.agree === '0');
   const [isChange, setIsChange] = useState(false);
+
+  useEffect(() => {
+    setAgree(member.agree === '1');
+  }, [member]);
 
   const validateAddress = (rule, value, callback) => {
     if (value.zip_code && value.zip_code > 0) {
@@ -46,8 +60,10 @@ function MemberDetailModals(props) {
           ...member,
           ...values,
           ...values.address,
-          birth: values.birth.format('YYYY-MM-DD')
+          birth: values.birth.format('YYYY-MM-DD'),
+          agree: agree ? '1' : '0'
         });
+
         if (result) {
           onCancel();
         }
@@ -105,15 +121,15 @@ function MemberDetailModals(props) {
               ),
             <Button key="back" onClick={onCancel} type="primary">
                 확인
-            </Button>
+              </Button>
             ]
           : [
             <Button key="change_cancel" onClick={() => setIsChange(false)}>
                 취소
-            </Button>,
+              </Button>,
             <Button key="change_ok" type="primary" onClick={handleChange}>
                 수정
-            </Button>
+              </Button>
             ]
       }
     >
@@ -161,6 +177,23 @@ function MemberDetailModals(props) {
             'phone',
             '010-1234-5678'
           )}
+
+          {createTextField('attendance_fee', '입회금액', 'dollar', '')}
+
+          <Form.Item label="성별">
+            {getFieldDecorator('gender', {
+              initialValue: member.gender,
+              rules: [{ required: true, message: '성별을 선택해 주세요' }]
+            })(
+              <Select style={{ width: 100 }} placeholder="성별을 선택해 주세요">
+                {genderType.map(type => (
+                  <Select.Option value={type} key={type}>
+                    {type}
+                  </Select.Option>
+                ))}
+              </Select>
+            )}
+          </Form.Item>
           <Form.Item label="경력">
             {getFieldDecorator('careers', {
               initialValue: member.careers
@@ -180,6 +213,14 @@ function MemberDetailModals(props) {
               </Select>
             )}
           </Form.Item>
+
+          <Checkbox
+            checked={agree}
+            onChange={e => setAgree(e.target.checked)}
+            style={{ margin: '12px 8px' }}
+          >
+            개인정보 활용 동의
+          </Checkbox>
         </Form>
       ) : (
         <Descriptions layout="vertical" size="small" bordered>
@@ -188,6 +229,7 @@ function MemberDetailModals(props) {
           <Descriptions.Item label="생일">
             {moment(member.birth, 'YYYY-MM-DD').format('YYYY년 MM월 DD일')}
           </Descriptions.Item>
+          <Descriptions.Item label="성별">{member.gender}</Descriptions.Item>
           <Descriptions.Item label="주소" span={3}>
             {member.address}
           </Descriptions.Item>
@@ -195,15 +237,19 @@ function MemberDetailModals(props) {
             {member.education}
           </Descriptions.Item>
           <Descriptions.Item label="경력" span={3}>
-            {member.careers && member.careers.map(career => (
-              <span key={career.id}>
-                {career.content}
-                <br />
-              </span>
-            ))}
+            {member.careers
+              && member.careers.map(career => (
+                <span key={career.id}>
+                  {career.content}
+                  <br />
+                </span>
+              ))}
           </Descriptions.Item>
           <Descriptions.Item label="직업">{member.job}</Descriptions.Item>
-          <Descriptions.Item label="핸드폰 번호" span={2}>
+          <Descriptions.Item label="입회금액">
+            {member.attendance_fee}
+          </Descriptions.Item>
+          <Descriptions.Item label="핸드폰 번호">
             <a href={`callto:${member.phone_number}`}>{member.phone_number}</a>
           </Descriptions.Item>
           <Descriptions.Item label="등급">{member.level}</Descriptions.Item>
