@@ -13,6 +13,7 @@ class MemberStore {
 
   addMember = flow(function* (member) {
     const response = yield axios.post('/users', member);
+    console.log(response);
     if (response.status === 201) {
       this.memberList = this.memberList.concat(response.data);
       return true;
@@ -57,7 +58,7 @@ class MemberStore {
     // 200 add 204 delete
     if (response.status === 200 || 204) {
       this.memberList = this.memberList.map(member =>
-        (member.id === id ? { ...member, paid_at: value ? 'X' : 'O' } : member));
+        (member.id === id ? { ...member, paid_at: value ? "X" : "O" } : member));
     }
   });
 
@@ -69,6 +70,16 @@ class MemberStore {
   @computed
   get regularMemberCount() {
     return this.memberList.filter(m => m.level === '정회원').length;
+  }
+
+  @computed
+  get personalMemberCount() {
+    return this.memberList.filter(m => m.level === '개인후원회원').length;
+  }
+
+  @computed
+  get groupMemberCount() {
+    return this.memberList.filter(m => m.level === '단체후원회원').length;
   }
 }
 

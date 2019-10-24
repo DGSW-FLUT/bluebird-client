@@ -70,18 +70,20 @@ class UserManage extends React.Component {
             isCollapsed={isCollapsed}
             onDelete={this.removeMember}
             onChange={this.updateMember}
-
             afterColumns={(
-              <Column
+<Column
                 title="납부 여부"
                 dataIndex="paid_at"
                 key="paid_at"
-                render={(text, record) => 
-                <Checkbox 
-                onClick={e => {
-                  e.stopPropagation();                  
-                  this.setPayment(record.id, !e.target.checked);
-                }} checked={text === 'O'} />}
+                render={(text, record) => (
+                  <Checkbox
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.setPayment(record.id, !e.target.checked);
+                    }}
+                    checked={text === "O"}
+                  />
+                )}
               />
 )}
             changeable

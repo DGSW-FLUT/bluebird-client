@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Col, Statistic, Row, Icon, Spin,
+ Col, Statistic, Row, Icon, Spin 
 } from 'antd';
 import { inject, observer } from 'mobx-react';
 import axios from '../axios';
@@ -29,28 +29,36 @@ class Dashboard extends React.Component {
     return (
       <Spin spinning={!member.isFetched}>
         <Row type="flex">
-          <Col span={isCollapsed ? 24 : 12} style={{ marginBottom: isCollapsed ? 32 : 0 }}>
-            <Statistic title="총 회원" value={member.memberCount} prefix={<Icon type="user" />} />
+          <Col
+            span={isCollapsed ? 24 : 12}
+            style={{ marginBottom: isCollapsed ? 32 : 0 }}
+          >
+            <Statistic
+              title="총 회원"
+              value={member.memberCount}
+              prefix={<Icon type="user" />}
+            />
             <Row type="flex" style={{ marginTop: isCollapsed ? 0 : 12 }}>
               <Col span={isCollapsed ? 24 : 12}>
-                <Statistic title="정회원 / 부회원" value={member.regularMemberCount} suffix={`/ ${member.memberCount - member.regularMemberCount}`} />
+                <Statistic
+                  title="정회원 / 개인후원회원 / 단체후원회원"
+                  value={member.regularMemberCount}
+                  suffix={`/ ${member.personalMemberCount} / ${member.groupMemberCount}`}
+                />
               </Col>
               <Col span={isCollapsed ? 24 : 12}>
                 <Statistic
                   title="올해 회원 증감 수"
-                  valueRender={() => (isLoading ? (<Spin />) : (
-                    <React.Fragment>
-                      <span style={{ color: '#3f8600' }}>
-                        +
-                        {increase}
-                      </span>
-                      {' '}
-                      <span style={{ color: '#cf1322' }}>
-                        -
-                        {decrease}
-                      </span>
-                    </React.Fragment>
-                  ))}
+                  valueRender={() =>
+                    (isLoading ? (
+                      <Spin />
+                    ) : (
+                      <React.Fragment>
+                        <span style={{ color: "#3f8600" }}>+{increase}</span>
+                        <span style={{ color: "#cf1322" }}>-{decrease}</span>
+                      </React.Fragment>
+                    ))
+                  }
                 />
               </Col>
             </Row>
@@ -60,7 +68,6 @@ class Dashboard extends React.Component {
         </Col> */}
         </Row>
       </Spin>
-
     );
   }
 }

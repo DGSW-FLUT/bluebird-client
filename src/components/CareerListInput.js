@@ -35,6 +35,7 @@ export default class CareerListInput extends React.Component {
   addCareer = async (career) => {
     const { user } = this.props;
     const { careerList } = this.state;
+    if (!career.length) return;
     if (user) {
       await axios.post(`/users/addCareer/${user.id}`, { career });
     }
@@ -51,7 +52,6 @@ export default class CareerListInput extends React.Component {
     careerList.splice(index, 1);
     this.triggerChange(careerList);
   };
-
 
   render() {
     const { careerList } = this.state;
