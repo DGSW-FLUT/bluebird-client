@@ -32,7 +32,7 @@ function MemberDetailModals(props) {
   } = props;
   const { getFieldDecorator, validateFields } = form;
 
-  const [agree, setAgree] = useState(member.agree === '0');
+  const [agree, setAgree] = useState(false);
   const [isChange, setIsChange] = useState(false);
 
   useEffect(() => {
@@ -215,6 +215,7 @@ function MemberDetailModals(props) {
           </Form.Item>
 
           <Checkbox
+            // defaultChecked={member.agree === '1'}
             checked={agree}
             onChange={e => setAgree(e.target.checked)}
             style={{ margin: '12px 8px' }}
